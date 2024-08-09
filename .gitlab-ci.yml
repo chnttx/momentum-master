@@ -1,3 +1,7 @@
-Test job:
+job1:
+  script:
+    - echo "Hello world!"
+
+job2:
   script:
     - echo "Hello world!"
