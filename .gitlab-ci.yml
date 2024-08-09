@@ -1,0 +1,3 @@
+Test job:
+  script:
+    - echo "Hello world!"
