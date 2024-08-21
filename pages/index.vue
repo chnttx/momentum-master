@@ -1,0 +1,2 @@
+<!-- Home page -->
+<template></template>

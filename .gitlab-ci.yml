@@ -1,7 +1,71 @@
-job1:
-  script:
-    - echo "Hello world!"
+image: node:18
 
-job2:
-  script:
-    - echo "Hello world!"
+cache:
+    paths:
+        - node_modules/
+
+stages:
+    - install
+    - build
+    - test
+    # - deploy
+
+# Install dependencies
+install:
+    stage: install
+    script:
+        - npm ci
+    artifacts:
+        paths:
+            - node_modules/
+
+# Build the Nuxt.js application
+build:
+    stage: build
+    script:
+        - npm run build
+    artifacts:
+        paths:
+            - .nuxt/
+            - dist/
+        expire_in: 1 week
+
+# Run tests
+test:
+    stage: test
+    script:
+        - npm run test
+    # artifacts:
+    #   paths:
+    #     - test-results/
+    #   when: always
+    dependencies:
+        - build
+# Deploy stage (example for FTP, SFTP, or similar)
+# deploy:
+#   stage: deploy
+#   script:
+#     - echo "Deploying to production server"
+#     # Example: Secure Copy (SCP) or SFTP
+#     - scp -r dist/ username@your-server:/path/to/deployment/folder
+#   only:
+#     - main  # Deploy only when pushing to the main branch
+#   dependencies:
+#     - test
+
+# If deploying to Vercel/Netlify, include deployment script accordingly
+# For Vercel:
+# deploy_vercel:
+#   stage: deploy
+#   script:
+#     - npx vercel --prod
+#   only:
+#     - main
+
+# For Netlify:
+# deploy_netlify:
+#   stage: deploy
+#   script:
+#     - npx netlify deploy --prod --dir=dist
+#   only:
+#     - main

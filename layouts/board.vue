@@ -1,0 +1,2 @@
+<!-- Dashboard layout -->
+<template></template>
