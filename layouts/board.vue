@@ -1,1 +1,2 @@
 <!-- Dashboard layout -->
+<template></template>

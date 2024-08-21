@@ -1,1 +1,2 @@
 <!-- Sidebar -->
+<template></template>
