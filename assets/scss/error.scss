@@ -1,0 +1,40 @@
+@import "colors";
+@import "fonts";
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#status-code {
+    font-weight: $medium-font-weight;
+    font-size: $font-size-xl;
+}
+
+#message {
+    font-weight: $regular-font-weight;
+    font-size: $font-size-lg;
+}
+
+.error-card {
+    font-family: "Montserrat", sans-serif;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 30px 30px 30px;
+    height: fit-content;
+}
+
+.btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: $font-size-sm;
+    background-color: $primary;
+    color: $secondary;
+    border-radius: 5px;
+    padding: 5px;
+}

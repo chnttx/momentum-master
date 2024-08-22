@@ -1,2 +1,4 @@
 <!-- Home page -->
-<template></template>
+<template>
+    <div>Hello world</div>
+</template>
