@@ -40,6 +40,7 @@
         margin-left: 45%;
         width: 135%;
         height: 150px;
+        
     }
 
     .download
