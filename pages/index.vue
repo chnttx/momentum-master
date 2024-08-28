@@ -14,7 +14,7 @@
                     <li> <a href="">Guide</a> </li>
                 </ul>
             </nav>
-            <button>Get the App!</button>
+            <button>Get the App</button>
         </div>
         <hr>
         <div class="body">
@@ -30,7 +30,7 @@
                         interactive AI.
                     </p>
                     <div class="auth">
-                        <span >
+                        <span>
                             <a href="" class="login">
                                 <span style="font-size: 28px;">Login</span>
                                 <img src="~/assets/images/login.svg" class="login-logo">
@@ -76,12 +76,12 @@
         .nav-list {
             list-style: none;
             display: flex;
-            gap: 3rem;
+            gap: 6rem;
             a {
 
               color: black;
               font-size: 32px;
-              font-weight: 800;
+              font-weight: bold;
               text-decoration: none;
 
             }
@@ -100,7 +100,7 @@
             background-color: $button-color;
             box-sizing: border-box;
             font-size: 24px;
-            font-weight: 700;
+            font-weight: bold;
         }
 
         .mmlogo {
@@ -186,7 +186,6 @@
 
                 .signup {
                     padding: 0.5rem 1rem;
-                    background-color: white;
                     border-radius: 2rem;
                     color: black;
                     text-decoration: none;
