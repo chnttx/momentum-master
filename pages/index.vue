@@ -12,9 +12,9 @@
                     <li> <a href="">Features</a> </li>
                     <li> <a href="">Platforms</a> </li>
                     <li> <a href="">Guide</a> </li>
-                    <li id="getApp"> <a style="color:#fff;padding-top: 10px;padding-bottom: 10px;padding-right: 10px;padding-left: 10px;" href="" data-v-02281a80="">Get The App</a> </li>
                 </ul>
             </nav>
+            <button>Get the App!</button>
         </div>
         <hr>
         <div class="body">
@@ -30,229 +30,178 @@
                         interactive AI.
                     </p>
                     <div class="auth">
-                        <span style="float: left;">
+                        <span >
                             <a href="" class="login">
                                 <span style="font-size: 28px;">Login</span>
-                                <img src="~/assets/images/login.svg" class="loginlogo">
+                                <img src="~/assets/images/login.svg" class="login-logo">
                             </a>
                         </span>
-                        <span style="float: right;">
+                        <span>
                             <a href="" class="signup">
                                 <span style="font-size: 28px;">Sign Up</span>
-                                <img src="~/assets/images/Component 2.svg" class="loginlogo">
+                                <img src="~/assets/images/Component 2.svg" class="login-logo">
                             </a>
                         </span>
                     </div>
                 </div>
-                <div class="intro-container-right">
-                    <img  height="120%" width="90%" src="~/assets/images/mask.png">
+                <div class="intro-container__right">
+                    <img src="~/assets/images/mask.png">
                 </div>
             </div>
-            <p style="float: left;">
-                <img src="~/assets/images/nomoss.svg" class="nomosslogo">
-            </p>            
+
+            <img src="~/assets/images/nomoss.svg" class="nomosslogo">
+
         </div>
     </div>
 </template>
 
 <style scoped lang="scss">
+    $button-color: #1C64B6;
 
-    .root-container{
-        position: absolute;
-        right: 0;
-        left: 0;
-        top: 0;
-        bottom: 0;
-    }
-
-    .navbar{
-        float: right;
-        overflow: hidden;
-        font-family: "Montserrat";
-    }
-
-    .nav-list{
-        list-style: none;
+    .body--override {
+        margin: 0;
         padding: 0;
-        margin: 0;
-        display: flex;
-        padding-left: 35em;
-        justify-content: space-between;
     }
 
-    .nav-list li
-    {
-        flex: 1;
-        margin: 0 60px;;
-    }
 
-    .nav-list li:last-child
-    {
-        margin: 0;
-        margin-left: 20em;
-    }
-
-    .nav-list a
-    {
-        display: block;
-        color: black;
-        text-align: center;
-        font-size: 23px;
-        font-weight: bold;
-        text-decoration: none;
-        padding-top: 8px;
-        white-space: nowrap;
-    }
-
-    #getApp{
-        background-color: #1C64B6;
-        color: #fff;
-        border-radius: 2rem;
-        margin-bottom: 4px;
-    }
-
-    .nav-container
-    {
+    .nav-container {
         display: flex;
         background-color: #C2D9EE;
-        padding-right: 5rem;
+        justify-content: space-around;
         align-items: center;
-    }
+        min-height: 7rem;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
 
-    .mmlogo
-    {
-        padding-left: 4rem;
-        height: 7rem;
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 3rem;
+            a {
+
+              color: black;
+              font-size: 32px;
+              font-weight: 800;
+              text-decoration: none;
+
+            }
+        }
+
+        .navbar {
+
+            font-family: "Montserrat";
+        }
+
+        > button {
+            border-radius: 4rem;
+            padding: 15px 20px;
+            border: none;
+            color: white;
+            background-color: $button-color;
+            box-sizing: border-box;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .mmlogo {
+            height: 7rem;
+        }
+
     }
 
     .intro-wrapper {
         display: flex;
-        justify-content: flex-start; 
-        padding-left: 200px
+        justify-content: center;
+        gap: 10rem;
+
+
+        .intro-container {
+            font-family: "Montserrat";
+            text-align: center;
+            font-size: 30px;
+            max-width: 40rem;
+
+            &__right {
+                width: 40rem;
+                padding-right: 3rem;
+
+                > img {
+                    padding-top: 10rem;
+                    width: 100%;
+                }
+
+            }
+
+            @media screen and (max-width: 768px) {
+                &__right {
+                    display: none;
+                }
+                .title {
+                    font-size: 16px;
+                }
+            }
+
+            .title {
+                font-weight: bold;
+                font-size: 44px;
+                margin: 0;
+                padding-top: 10rem;
+            }
+
+        }
     }
 
-    .intro-container {
-        padding-top: 5rem;
-        font-family: "Montserrat";
-        margin-left: 85px;
-        text-align: center;          
-        max-width: 550px;            
-        font-size: 30px;
-        width: 50%;
-        
-    }
+    .root-container {
 
-    .intro-container-right {
-        padding-top: 5rem;         
-        max-width: 550px;           
-        width: 50%;
-        padding-left: 400px;
-    }
-
-    .title
-    {
-        font-weight: bold;
-        font-size: 44px;
-        padding-top: 50px;
-    }
-
-    .nomosslogo
-    {
-        width: 15rem;
-        height: 15rem;
-        padding-left: 35px;
-        padding-top: 16em;
-    }
-
-    .body
-    {
-        background-color: #CCE0EB;
-        height: 91%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    hr
-    {
-        margin: 0;
-    }
-
-    .login
-    {
-        margin-top: 0.5rem;
-        margin-left: 1rem;
-        padding: 0.5rem 1rem;
-        background-color: #1C64B6;
-        border-radius: 2rem;
-        color: white;
-        text-decoration: none;
-        font-size: large;
-        display: flex;
-    }
-
-    .signup
-    {
-        margin-left: 5rem;
-        padding: 1rem 3rem;
-        background-color: whitw;
-        border-radius: 2rem;
-        color: black;
-        text-decoration: none;
-        font-size: 30px;
-        display: flex;
-    }
-
-    .auth
-    {
-        font-family: "Montserrat";
-        display: flex;
-        padding-top: 10px;
-    }
-
-    .loginlogo
-    {
-        display: flex;
-        margin-left: 0.5rem;
-    }
-
-    .signuplogo
-    {
-        padding-left: 1rem;
-    }
-
-
-    @media screen and (max-width: 1682px)
-    {
-        .nav-list
-        {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .body {
+            background-color: #CCE0EB;
             display: flex;
-            padding-left: 10em;
-            justify-content: space-between;
+            flex-direction: column;
+
+            > .nomosslogo {
+              width: 15rem;
+              height: 15rem;
+              padding-left: 35px;
+              padding-top: 16em;
+            }
+            .auth {
+                font-family: "Montserrat";
+                display: flex;
+                justify-content: center;
+                padding-top: 10px;
+                gap: 3rem;
+                .login {
+                    padding: 0.5rem 1rem;
+                    background-color: #1C64B6;
+                    border-radius: 2rem;
+                    color: white;
+                    text-decoration: none;
+                    font-size: 32px;
+                    display: flex;
+
+                    .login-logo {
+                      display: flex;
+                    }
+                }
+
+                .signup {
+                    padding: 0.5rem 1rem;
+                    background-color: white;
+                    border-radius: 2rem;
+                    color: black;
+                    text-decoration: none;
+                    font-size: 30px;
+                    display: flex;
+                    gap: 5px;
+                    box-sizing: border-box;
+                }
+            }
         }
 
-        .nav-list a 
-        {
-            padding: 10px
-        }
-
-        .nav-list li
-        {
-            flex: 1;
-            margin: 0 60px;;
-        }
-
-        .nav-list li:last-child
-        {
+        hr {
             margin: 0;
-            margin-left: 2em;
-        }
-
-        .navbar
-        {
-            overflow: hidden;
         }
     }
+
+
 </style>
