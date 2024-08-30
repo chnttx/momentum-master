@@ -9,9 +9,9 @@
             </div>
             <nav class="navbar">
                 <ul class="nav-list">
-                    <li> <a href="">Features</a> </li>
-                    <li> <a href="">Platforms</a> </li>
-                    <li> <a href="">Guide</a> </li>
+                    <li> <NuxtLink>Features</NuxtLink> </li>
+                    <li> <NuxtLink>Platforms</NuxtLink> </li>
+                    <li> <NuxtLink>Guide</NuxtLink> </li>
                 </ul>
             </nav>
             <button>Get the App</button>
