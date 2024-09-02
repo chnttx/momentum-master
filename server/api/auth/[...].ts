@@ -1,5 +1,6 @@
 import Auth0Provider from "next-auth/providers/auth0";
 import { NuxtAuthHandler } from "#auth";
+import {base} from "next/dist/build/webpack/config/blocks/base";
 
 export default NuxtAuthHandler({
     secret: process.env.SECRET,
@@ -13,12 +14,8 @@ export default NuxtAuthHandler({
     callbacks: {
         /* on before signin */
         async signIn({ user, account, profile, email, credentials }) {
-            // console.log("Sign In");
-            // console.log(user);
-            // console.log(account);
-            // console.log(profile);
-            // console.log(email);
-            // console.log(credentials);
+
+
             return true;
         },
         /* on redirect to another url */
@@ -27,33 +24,29 @@ export default NuxtAuthHandler({
         },
         /* on session retrival */
         async session({ session, user, token }) {
-            // console.log("Session");
-            // console.log(session);
-            // console.log(user);
-            // console.log(token);
+
             return session;
         },
         /* on JWT token creation or mutation */
         async jwt({ token, user, account, profile, isNewUser }) {
-            // console.log("JWT");
-            // console.log(token);
-            // console.log(user);
-            // console.log(account);
-            // console.log(profile);
+
             return token;
         },
     },
     events: {
         async signIn(message) {
             /* on successful sign in */
+
         },
         async signOut(message) {
             /* on signout */
-            // console.log(message)
+
+
+
         },
         async createUser(message) {
             /* user created */
-            console.log(message)
+
         },
         async updateUser(message) {
             /* user updated - e.g. their email was verified */
