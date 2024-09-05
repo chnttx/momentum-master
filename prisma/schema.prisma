@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+}
+
+model User {
+  user_id String @id @db.VarChar(50)
+  username String @db.VarChar(50)
+  profile_image String?
+
+  user_settings User_setting[]
+  goals Goal[]
+  reflections Reflection[]
+}
+
+model Setting {
+  setting_id Int @id
+  description String @db.VarChar(100)
+
+  user_settings User_setting[]
+}
+
+model User_setting {
+  user_id String @db.VarChar(50)
+  setting_id Int
+  value Boolean
+
+  @@unique([user_id, setting_id])
+  
+  user User @relation(fields:[user_id], references: [user_id])
+  setting Setting @relation(fields: [setting_id], references: [setting_id])
+}
+
+model Goal_status {
+  id_goal_status Int @id
+  progress String @db.VarChar(45)
+
+  goals Goal[]
+}
+
+model Goal {
+  id_goal Int @id
+  description String @db.VarChar(200)
+  user_id String @db.VarChar(50)
+  id_goal_status Int
+
+  goal_status Goal_status @relation(fields: [id_goal_status], references: [id_goal_status])
+  user User @relation(fields:[user_id], references: [user_id])
+}
+
+model Question {
+  question_id Int @id
+  description String @db.VarChar(255)
+
+  question_responses Question_response[]
+}
+
+model Reflection {
+  reflection_id Int @id
+  date DateTime @default(now())
+  user_id String @db.VarChar(50)
+  summary String @db.VarChar(255)
+  mood_rating Int
+  focus String @db.VarChar(200)
+  question_responses Question_response[]
+
+  skills_used Skill_used[]
+  user User @relation(fields: [user_id], references: [user_id])
+}
+
+model Question_response {
+  answer String @db.VarChar(255)
+  reflection_id Int
+  question_id Int
+
+  @@unique([reflection_id, question_id])
+  question Question @relation(fields: [question_id], references: [question_id])
+  reflection Reflection @relation(fields: [reflection_id], references: [reflection_id])
+}
+
+model Skill {
+  id_skill Int @id
+  name String @db.VarChar(45)
+
+  skills_used Skill_used[]
+}
+
+model Rating_term {
+  id_rating Int @id
+  name String @db.VarChar(45)
+
+  skills_used Skill_used[]
+}
+
+model Skill_used {
+  reflection_id Int
+  id_rating Int
+  id_skill Int
+
+  @@unique([reflection_id, id_rating])
+  skill Skill @relation(fields: [id_skill], references: [id_skill])
+  rating Rating_term @relation(fields: [id_rating], references: [id_rating])
+  reflection Reflection @relation(fields: [reflection_id], references: [reflection_id])
+}
