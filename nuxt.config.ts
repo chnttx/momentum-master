@@ -19,6 +19,7 @@ export default defineNuxtConfig({
             enableOnWindowFocus: true,
         },
     },
+    css: ["~/assets/css/reset.css"],
     app: {
         head: {
             link: [
