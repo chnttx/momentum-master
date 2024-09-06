@@ -1,6 +1,5 @@
 import Auth0Provider from "next-auth/providers/auth0";
 import { NuxtAuthHandler } from "#auth";
-import {base} from "next/dist/build/webpack/config/blocks/base";
 
 export default NuxtAuthHandler({
     secret: process.env.SECRET,

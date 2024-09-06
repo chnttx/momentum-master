@@ -38,16 +38,14 @@
                 </NuxtLink>
             </li>
         </ul>
-        <NuxtLink class="logout-button" to="/logout">
+        <button class="logout-button" @click="handleAuth0Logout">
             <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
-        </NuxtLink>
+        </button>
     </nav>
 </template>
 
 <script lang="ts">
-const logout = () => {
-    navigateTo("logout");
-};
+
 </script>
 
 <style scoped lang="scss">
