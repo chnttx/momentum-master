@@ -1,34 +1,28 @@
 <!-- Dashboard layout -->
 <template>
-
     <div class="dashboard-layout">
-        
-         <Header />
-    
-         <Sidebar />    
-        
+        <div class="dashboard">
+            <Header />
+            <div class="window">
+                <Sidebar />
+                <div class="content"><slot> </slot></div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-import Header from '~/components/Header.vue'
-import Sidebar from '~/components/Sidebar.vue'
+import Header from "~/components/Header.vue";
+import Sidebar from "~/components/Sidebar.vue";
 
 export default {
     components: {
         Header,
-        Sidebar
-       
-    }
-}
+        Sidebar,
+    },
+};
 </script>
 
 <style scoped lang="scss">
-
-@import "~/assets/scss/_colors.scss";
-@import "~/assets/scss/_fonts.scss";
-.dashboard-layout {
-    background: linear-gradient(to bottom, white, #5085a5);
-
-}
+@use "~/assets/scss/board.scss";
 </style>
