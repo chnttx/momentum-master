@@ -59,7 +59,14 @@
     </div>
 </template>
 
-<script lang="ts"></script>
+<script lang="ts">
+definePageMeta({
+    auth: {
+        unauthenticatedOnly: true,
+        navigateAuthenticatedTo: "/dashboard",
+    },
+});
+</script>
 
 <style scoped lang="scss">
 @use "~/assets/scss/home.scss";
