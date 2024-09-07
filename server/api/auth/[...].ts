@@ -1,5 +1,6 @@
 import Auth0Provider from "next-auth/providers/auth0";
 import { NuxtAuthHandler } from "#auth";
+import {createUser, getUserById} from "~/server/services/user";
 
 export default NuxtAuthHandler({
     secret: process.env.SECRET,
@@ -13,6 +14,12 @@ export default NuxtAuthHandler({
     callbacks: {
         /* on before signin */
         async signIn({ user, account, profile, email, credentials }) {
+            const userExists = await getUserById({ id: user.id })
+            if (userExists == null) {
+                await createUser({ userId: user.id, username: user.name, profileImage: user.image})
+                return true
+            }
+
 
 
             return true;
@@ -35,17 +42,14 @@ export default NuxtAuthHandler({
     events: {
         async signIn(message) {
             /* on successful sign in */
-
         },
         async signOut(message) {
             /* on signout */
 
 
-
         },
         async createUser(message) {
             /* user created */
-
         },
         async updateUser(message) {
             /* user updated - e.g. their email was verified */
