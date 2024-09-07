@@ -15,7 +15,8 @@ export default defineNuxtConfig({
             addDefaultCallbackUrl: false,
         },
         sessionRefresh: {
-            enablePeriodically: true,
+            /* Refresh the session cookie every hour */
+            enablePeriodically: 3600000,
             enableOnWindowFocus: true,
         },
     },
