@@ -61,7 +61,7 @@ model Question {
 }
 
 model Reflection {
-  reflection_id Int @id
+  reflection_id Int @id @default(autoincrement())
   date DateTime @default(now())
   user_id String @db.VarChar(50)
   summary String @db.VarChar(255)
