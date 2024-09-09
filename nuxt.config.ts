@@ -4,6 +4,7 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     modules: ["@nuxt/test-utils/module", "@sidebase/nuxt-auth"],
     auth: {
+        globalAppMiddleware: true,
         isEnabled: true,
         disableServerSideAuth: false,
         originEnvKey: "AUTH_ORIGIN",
@@ -15,7 +16,8 @@ export default defineNuxtConfig({
             addDefaultCallbackUrl: false,
         },
         sessionRefresh: {
-            enablePeriodically: true,
+            /* Refresh the session cookie every hour */
+            enablePeriodically: 3600000,
             enableOnWindowFocus: true,
         },
     },

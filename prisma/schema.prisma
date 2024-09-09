@@ -9,7 +9,7 @@ datasource db {
 }
 
 model User {
-  user_id String @id @db.VarChar(50)
+  user_id Int @id @default(autoincrement())
   username String @db.VarChar(50)
   profile_image String?
 
@@ -19,14 +19,14 @@ model User {
 }
 
 model Setting {
-  setting_id Int @id
+  setting_id Int @id @default(autoincrement())
   description String @db.VarChar(100)
 
   user_settings User_setting[]
 }
 
 model User_setting {
-  user_id String @db.VarChar(50)
+  user_id Int 
   setting_id Int
   value Boolean
 
@@ -37,16 +37,16 @@ model User_setting {
 }
 
 model Goal_status {
-  id_goal_status Int @id
+  id_goal_status Int @id @default(autoincrement())
   progress String @db.VarChar(45)
 
   goals Goal[]
 }
 
 model Goal {
-  id_goal Int @id
+  id_goal Int @id @default(autoincrement())
   description String @db.VarChar(200)
-  user_id String @db.VarChar(50)
+  user_id Int 
   id_goal_status Int
 
   goal_status Goal_status @relation(fields: [id_goal_status], references: [id_goal_status])
@@ -54,16 +54,16 @@ model Goal {
 }
 
 model Question {
-  question_id Int @id
+  question_id Int @id @default(autoincrement())
   description String @db.VarChar(255)
 
   question_responses Question_response[]
 }
 
 model Reflection {
-  reflection_id Int @id
+  reflection_id Int @id @default(autoincrement())
   date DateTime @default(now())
-  user_id String @db.VarChar(50)
+  user_id Int 
   summary String @db.VarChar(255)
   mood_rating Int
   focus String @db.VarChar(200)
@@ -84,14 +84,14 @@ model Question_response {
 }
 
 model Skill {
-  id_skill Int @id
+  id_skill Int @id @default(autoincrement())
   name String @db.VarChar(45)
 
   skills_used Skill_used[]
 }
 
 model Rating_term {
-  id_rating Int @id
+  id_rating Int @id @default(autoincrement())
   name String @db.VarChar(45)
 
   skills_used Skill_used[]
