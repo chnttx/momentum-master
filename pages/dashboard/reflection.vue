@@ -75,7 +75,6 @@ const userImage = session?.user?.image ? session.user.image : dummyAvatar;
 const alternate = ref<Boolean>(false); //Dev
 
 const sendMessage = () => {
-    /* To ChatGPT API */
     if (message.value.length !== 0) {
         chats.value.push({
             // isUser: true,
@@ -87,19 +86,21 @@ const sendMessage = () => {
 
         alternate.value = !alternate.value; // Dev
     }
+
+    // Get chatgpt response and add to chat
     chat.value.scrollTo(0, chat.value.scrollHeight);
 };
 
-const updateMoodRating = () => {
-    // update moodRating
+const updateMoodRating = (rating: Number) => {
+    moodRating.value = rating;
 };
 
-const updateSkills = () => {
-    // update moodRating
+const updateSkills = (selectedSkills: string[]) => {
+    skills.value = selectedSkills;
 };
 
-const updateSkillRatings = () => {
-    // update moodRating
+const updateSkillRatings = (newSkillRatings: SkillRating[]) => {
+    skillRatings.value = newSkillRatings;
 };
 
 watch(
