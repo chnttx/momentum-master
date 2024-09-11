@@ -11,7 +11,7 @@
             />
             <span class="profile-name">{{ username }}</span>
         </div>
-        <img src="@/assets/images/no_moss_logo.png" alt="Logo" class="logo" />
+        <img src="@/assets/images/mmlogo.svg" alt="Logo" class="logo" />
     </div>
 </template>
 

@@ -1,2 +1,62 @@
 @import "~/assets/scss/_colors.scss";
 @import "~/assets/scss/_fonts.scss";
+
+.reflection-container {
+    height: 100%;
+    width: 100%;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: $font-family;
+    align-items: center;
+}
+
+.message-input {
+    border-width: 1px;
+    border-color: $primary;
+    border-style: solid;
+    border-radius: 10px;
+    width: 70%;
+}
+
+#chat {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.message {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-message {
+    justify-content: flex-end;
+}
+
+.ai-message {
+    justify-content: flex-start;
+}
+
+.message > img {
+    height: 30px;
+    border-radius: 50%;
+}
+
+.text {
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    font-weight: $medium-font-weight;
+}
+
+.user-text {
+    background-color: $primary;
+    color: white;
+}
+
+.ai-text {
+    border: 1px $primary solid;
+    color: $primary;
+}
