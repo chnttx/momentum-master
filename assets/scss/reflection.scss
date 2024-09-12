@@ -18,6 +18,7 @@
     border-style: solid;
     border-radius: 10px;
     width: 70%;
+    background: transparent;
 }
 
 #chat {
@@ -28,8 +29,8 @@
 .message {
     display: flex;
     width: 100%;
-    align-items: center;
     gap: 1rem;
+    padding: 0.5rem;
 }
 
 .user-message {
@@ -47,8 +48,10 @@
 
 .text {
     border-radius: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.75rem;
     font-weight: $medium-font-weight;
+    max-width: 60%;
+    overflow-wrap: normal;
 }
 
 .user-text {

@@ -29,8 +29,36 @@
             </div>
 
             <!-- Message input -->
-            <form @submit.prevent="sendMessage" class="message-input">
-                <UInput
+            <form
+                @submit.prevent="sendMessage"
+                @keyup.enter="
+                    () => chat.value.scrollTo(0, chat.value.scrollHeight)
+                "
+                @keyup.c="sendMessage"
+                class="message-input"
+            >
+                <!-- <UInput
+                    color="white"
+                    variant="none"
+                    v-model="message"
+                    :disabled="
+                        // !(moodRated && skillSelected && skillRated)
+                        false //Dev
+                    "
+                    :placeholder="
+                        moodRated
+                            ? skillSelected
+                                ? skillRated
+                                    ? `Enter message`
+                                    : `Rate the selected skill`
+                                : `Select a skill`
+                            : `Rate your mood first`
+                    "
+                /> -->
+                <UTextarea
+                    autoresize
+                    :maxrows="5"
+                    :row="1"
                     color="white"
                     variant="none"
                     v-model="message"
