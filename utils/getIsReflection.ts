@@ -7,6 +7,6 @@ export default function () {
     const isReflection = JSON.parse(
         localStorage.getItem("isReflection") as string
     );
-    if (isReflection) return isReflection;
+    if (isReflection !== null) return isReflection;
     return true;
 }
