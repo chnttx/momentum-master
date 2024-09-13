@@ -31,16 +31,12 @@
 
             <div class="container">
                 <!-- Buttons -->
-                <div
-                    v-if="isReflection"
-                    class="complete-btn"
-                    @click="updateIsReflection"
-                >
+                <div class="complete-btn" @click="toggleIsReflection">
                     <UButton
                         color="black"
-                        icon="i-heroicons-check"
+                        :icon="reflectionBtnContent.icon"
                         :ui="{ rounded: 'rounded-full' }"
-                        >Complete Reflection</UButton
+                        >{{ reflectionBtnContent.text }}</UButton
                     >
                 </div>
 
@@ -76,22 +72,38 @@
 <script setup lang="ts">
 import dummyAvatar from "~/assets/images/dummy-avatar.jpg";
 import { type Chat } from "../../types/chat";
-import { type skillRating } from "../../types/skillRating";
+import { type SkillRating } from "../../types/skillRating";
 
 const { getSession } = useAuth();
-const layout = "board";
-const message = ref("");
 const session = await getSession();
-const chats = ref<Chat[]>([]);
-const moodRated = ref<Boolean>(false);
-const moodRating = ref<Number | null>(null);
-const skillSelected = ref<Boolean>(false);
-const skills = ref<string[]>([]);
-const skillsRated = ref<Boolean>(false);
-const skillRatings = ref<skillRating[]>([]);
-const chat = ref<HTMLElement | null>(null);
-const isReflection = ref<Boolean>(true);
+const layout = "board";
 const userImage = session?.user?.image ? session.user.image : dummyAvatar;
+
+const {
+    chats,
+    moodRating,
+    moodRated,
+    skills,
+    skillSelected,
+    skillRatings,
+    skillsRated,
+    isReflection,
+    updateMoodRating,
+    updateSkillRatings,
+    updateSkills,
+    toggleIsReflection,
+} = useReflection();
+
+const message = ref("");
+const chat = ref<HTMLElement | null>(null);
+const reflectionBtnContent = computed(() => {
+    return isReflection.value
+        ? { text: "Complete reflection", icon: "i-heroicons-check" }
+        : {
+              text: "Resume reflection",
+              icon: "i-heroicons-chat-bubble-bottom-center-text",
+          };
+});
 
 const alternate = ref<Boolean>(false); //Dev
 
@@ -113,73 +125,6 @@ const sendMessage = () => {
     // Get chatgpt response and add to chat
     chat.value.scrollTo(0, chat.value.scrollHeight);
 };
-
-const updateMoodRating = (rating: Number) => {
-    moodRating.value = rating;
-};
-
-const updateSkills = (selectedSkills: string[]) => {
-    skills.value = selectedSkills;
-};
-
-const updateSkillRatings = (newSkillRatings: SkillRating[]) => {
-    skillRatings.value = newSkillRatings;
-};
-
-const updateIsReflection = () => {
-    if (process.client && isReflection.value) {
-        isReflection.value = false;
-        localStorage.setItem(
-            "isReflection",
-            JSON.stringify(isReflection.value)
-        );
-    }
-};
-
-watch(
-    chats,
-    () => {
-        localStorage.setItem("chats", JSON.stringify(chats.value));
-    },
-    { deep: true }
-);
-
-watch(moodRating, () => {
-    localStorage.setItem("moodRating", JSON.stringify(moodRating.value));
-    if (moodRating.value != null) moodRated.value = true;
-});
-
-watch(
-    skills,
-    () => {
-        if (skills.value?.length !== 0) skillSelected.value = true;
-        localStorage.setItem("skills", JSON.stringify(skills.value));
-    },
-    { deep: true }
-);
-
-watch(
-    skillRatings,
-    () => {
-        if (skillRatings.value?.length !== 0) skillRated.value = true;
-        localStorage.setItem(
-            "skillRatings",
-            JSON.stringify(skillRatings.value)
-        );
-    },
-    { deep: true }
-);
-
-onMounted(() => {
-    chats.value = getChats();
-    moodRating.value = getMoodRating();
-    skills.value = getSkills();
-    skillRatings.value = getSkillRatings();
-    isReflection.value = getIsReflection();
-    moodRated.value = moodRating.value != null;
-    skillSelected.value = skills.value?.length !== 0;
-    skillsRated.value = skillRatings.value?.length !== 0;
-});
 </script>
 
 <style scoped lang="scss">

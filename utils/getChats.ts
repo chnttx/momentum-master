@@ -1,8 +1,8 @@
 import { type Chat } from "../types/chat";
 import resetLocalStorage from "./resetLocalStorage";
 /**
- * Retrieve the user's chat history of the day from local storage
- * Reset local storage if the last message was from a different date
+ * Retrieve the user's chat history of the day from local storage, and
+ * reset local storage if the last message was from a different date
  *
  * @return {Chat[]} The chat history of the day
  */
