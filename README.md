@@ -91,30 +91,20 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers. -->
-<<<<<<< HEAD
-=======
-<div style="text-align: center;">
-<img src="./public/mmlogo-resized.png" align="center">
-<h1>Momentum Master</h1>
+<div align="center">
+  <img src="./public/mmlogo-resized.png" align="center">
+  <h1>Momentum Master</h1>
 </div>
->>>>>>> main
 
 Momentum Master is an online tool for enhancing professional development, built with **functionality and user experience** in mind. Get AI-powered reflections, track your goals, manage your skills all-in-one.
 
 ## Dependencies
 You will need the following to run the code:
 - Node package manager (`npm`) minimum v.18.13.0
-<<<<<<< HEAD
-- Vercel account
-- [Prisma](https://www.prisma.io/docs) (to run Prisma Studio for database)
-- Git (obviously lol)
-- OpenAI library for LLM chatbot
-=======
 - Vercel account (since our database is hosted on Vercel)
 - [Prisma](https://www.prisma.io/docs) (to run Prisma Studio for database)
 - Git (obviously lol)
 - OpenAI for LLM chatbot
->>>>>>> main
 
 ## Getting Started
 1. Clone this repo to your device
@@ -122,16 +112,10 @@ You will need the following to run the code:
 3. Run `touch .env` to generate an environment file
 4. Log in to Vercel with the test account, open database and copy the credentials to the `.env` file
 5. Run `npx nuxt dev` or `vercel dev` to run on `localhost:3000`
-<<<<<<< HEAD
-
-## Technologies Used
-- Front-end: Vue.ts, Vite
-=======
 6. **(optional)** Run `npx prisma studio` to access the database
 
 ## Technologies Used
 - Front-end: Vue.ts, Vite, Bootstrap
->>>>>>> main
 - Back-end: Nuxt3, Auth0 (authentication), OpenAI (LLM chatbot), Vercel Postgres + Prisma (database), ... (image hosting)
 - Testing: Jest, `@nuxt/test-utils`, Vitest
 - CI/CD: Gitlab CI/CD for deployment and automated testing
@@ -143,14 +127,6 @@ You will need the following to run the code:
 ### Database
 - The database schema is defined in `prisma/schema.prisma`
 - Any changes in the schema has to be followed by `npx prisma generate` to reflect those changes in the database
-<<<<<<< HEAD
-## Links
-- Website
-- Confluence
-- Figma Prototypes
-- Source Code
-- Swagger for API endpoints
-=======
 
 ## Testing
 - Testing plan
@@ -163,4 +139,3 @@ You will need the following to run the code:
 - [Figma](https://www.figma.com/design/L1rIo3iazou9FjrDB5z49U/No-moss-Momentum-Master?node-id=94-732&node-type=FRAME&t=4nPZvqUS2wPeS8Ek-0)
 - [Source Code](https://gitlab.com/it-project-no-moss/advancify)
 - Swagger for API endpoints 
->>>>>>> main
