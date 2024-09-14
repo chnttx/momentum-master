@@ -5,7 +5,7 @@
     "scripts": {
         "build": "nuxt build",
         "dev": "nuxi dev",
-        "test": "vitest",
+        "test": "vitest --coverage",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare"
@@ -21,6 +21,7 @@
     "devDependencies": {
         "@nuxt/test-utils": "^3.14.1",
         "@sidebase/nuxt-auth": "^0.9.1",
+        "@vitest/coverage-v8": "^2.1.1",
         "@vue/test-utils": "^2.4.6",
         "happy-dom": "^14.12.3",
         "playwright-core": "^1.46.1",
