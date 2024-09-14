@@ -2,12 +2,9 @@
     <NuxtLayout :name="layout">
         <div class="page-container">
             <div v-if="endSession" id="end-session">
-                Today's reflection session is completed
+                Today's reflection session is completed (read-only)
             </div>
-            <div
-                class="reflection-container"
-                :class="endSession ? 'zero-padding-top' : ''"
-            >
+            <div class="reflection-container">
                 <!-- Chat -->
                 <div id="chat" ref="chat">
                     <!-- Mood Rating Slider -->

@@ -4,7 +4,7 @@
 .reflection-container {
     height: 100%;
     width: 100%;
-    padding: 2.5rem;
+    padding: 0 2.5rem 1rem 2.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -86,8 +86,8 @@
 #end-session {
     background: $primary;
     color: white;
-    font-size: $font-size-sm;
-    font-weight: $medium-font-weight;
+    font-size: $base-font-size;
+    font-weight: $bold-font-weight;
     text-align: center;
     vertical-align: middle;
     font-family: $font-family;
@@ -101,8 +101,4 @@
     flex-direction: column;
     justify-content: flex-end;
     gap: 0.5rem;
-}
-
-.zero-padding-top {
-    padding-top: 0;
 }
