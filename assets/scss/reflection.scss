@@ -12,6 +12,13 @@
     align-items: center;
 }
 
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
 .message-input {
     border-width: 1px;
     border-color: $primary;
@@ -76,6 +83,17 @@
     }
 }
 
+#end-session {
+    background: $primary;
+    color: white;
+    font-size: $font-size-sm;
+    font-weight: $medium-font-weight;
+    text-align: center;
+    vertical-align: middle;
+    font-family: $font-family;
+    padding: 1rem;
+}
+
 .container {
     width: 100%;
     height: fit-content;
@@ -83,4 +101,8 @@
     flex-direction: column;
     justify-content: flex-end;
     gap: 0.5rem;
+}
+
+.zero-padding-top {
+    padding-top: 0;
 }
