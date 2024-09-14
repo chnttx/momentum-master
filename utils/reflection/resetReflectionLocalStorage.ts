@@ -8,4 +8,6 @@ export default function () {
     localStorage.removeItem("skills");
     localStorage.removeItem("skillRatings");
     localStorage.removeItem("isReflection");
+    localStorage.removeItem("endSession");
+    localStorage.removeItem("learnNewSkill");
 }

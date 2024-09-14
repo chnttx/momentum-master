@@ -1,5 +1,6 @@
-import { type Chat } from "../types/chat";
-import resetLocalStorage from "./resetLocalStorage";
+import { type Chat } from "../../types/chat";
+import resetReflectionLocalStorage from "./resetReflectionLocalStorage";
+import resetLocalStorage from "./resetReflectionLocalStorage";
 /**
  * Retrieve the user's chat history of the day from local storage, and
  * reset local storage if the last message was from a different date
@@ -20,10 +21,9 @@ export default function () {
             today.getMonth() == latestMessageDate.getMonth() &&
             today.getFullYear() == latestMessageDate.getFullYear();
         if (!isSameDay) {
-            resetLocalStorage();
+            resetReflectionLocalStorage();
             return [] as Chat[];
         }
     }
-
     return chats;
 }
