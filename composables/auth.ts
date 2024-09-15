@@ -16,5 +16,10 @@ export const handleAuth0Logout = async () => {
 };
 
 export const handleApplicationLogout = async () => {
-    await signOut();
+    try {
+
+        await signOut();
+    } catch (err) {
+
+    }
 };
