@@ -78,7 +78,8 @@ export default function () {
     }
 
     function toggleIsReflection() {
-        isReflection.value = !isReflection.value;
+        if (moodRated && skillSelected && skillsRated)
+            isReflection.value = !isReflection.value;
     }
 
     function toggleLearnNewSkill() {
