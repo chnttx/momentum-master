@@ -1,4 +1,3 @@
-import { signOut } from "next-auth/react";
 
 export const handleLogin = async () => {
     const { signIn } = useAuth();
@@ -16,10 +15,9 @@ export const handleAuth0Logout = async () => {
 };
 
 export const handleApplicationLogout = async () => {
-    try {
+    const { signOut } = useAuth()
 
-        await signOut();
-    } catch (err) {
 
-    }
+    await signOut();
+
 };
