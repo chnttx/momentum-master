@@ -5,8 +5,8 @@
 export default function () {
     localStorage.removeItem("chats");
     localStorage.removeItem("moodRating");
-    localStorage.removeItem("skills");
-    localStorage.removeItem("skillRatings");
+    localStorage.removeItem("skill");
+    localStorage.removeItem("skillRating");
     localStorage.removeItem("isReflection");
     localStorage.removeItem("endSession");
     localStorage.removeItem("learnNewSkill");

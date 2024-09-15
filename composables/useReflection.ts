@@ -1,5 +1,4 @@
 import { type Chat } from "~/types/chat";
-import { type SkillRating } from "~/types/skillRating";
 
 /**
  * Contains reactive variables and functions for the reflection function
@@ -8,8 +7,8 @@ import { type SkillRating } from "~/types/skillRating";
 export default function () {
     const chats = ref<Chat[]>([]);
     const moodRating = ref<Number | null>(null);
-    const skills = ref<string[]>([]);
-    const skillRatings = ref<SkillRating[]>([]);
+    const skill = ref<string | null>(null);
+    const skillRating = ref<number | null>(null);
     const isReflection = ref<Boolean>(true);
     const learnNewSkill = ref<Boolean>(false);
     const endSession = ref<Boolean>(false);
@@ -19,11 +18,11 @@ export default function () {
     });
 
     const skillSelected = computed(() => {
-        return skills.value?.length !== 0;
+        return skill.value != null;
     });
 
     const skillsRated = computed(() => {
-        return skillRatings.value?.length !== 0;
+        return skillRating.value !== null;
     });
 
     watch(
@@ -38,24 +37,13 @@ export default function () {
         localStorage.setItem("moodRating", JSON.stringify(moodRating.value));
     });
 
-    watch(
-        skills,
-        () => {
-            localStorage.setItem("skills", JSON.stringify(skills.value));
-        },
-        { deep: true }
-    );
+    watch(skill, () => {
+        localStorage.setItem("skill", JSON.stringify(skill.value));
+    });
 
-    watch(
-        skillRatings,
-        () => {
-            localStorage.setItem(
-                "skillRatings",
-                JSON.stringify(skillRatings.value)
-            );
-        },
-        { deep: true }
-    );
+    watch(skillRating, () => {
+        localStorage.setItem("skillRating", JSON.stringify(skillRating.value));
+    });
 
     watch(isReflection, () => {
         localStorage.setItem(
@@ -79,12 +67,14 @@ export default function () {
         moodRating.value = rating;
     }
 
-    function updateSkills(selectedSkills: string[]) {
-        skills.value = selectedSkills;
+    function updateSkill(selectedSkill: string) {
+        console.log(selectedSkill);
+        console.log("updated");
+        skill.value = selectedSkill;
     }
 
-    function updateSkillRatings(newSkillRatings: SkillRating[]) {
-        skillRatings.value = newSkillRatings;
+    function updateSkillRating(newSkillRating: number) {
+        skillRating.value = newSkillRating;
     }
 
     function toggleIsReflection() {
@@ -102,8 +92,8 @@ export default function () {
     onMounted(() => {
         chats.value = getChats();
         moodRating.value = getMoodRating();
-        skills.value = getSkills();
-        skillRatings.value = getSkillRatings();
+        skill.value = getSkill();
+        skillRating.value = getSkillRating();
         isReflection.value = getIsReflection();
         learnNewSkill.value = getLearnNewSkill();
         endSession.value = getEndSession();
@@ -113,16 +103,16 @@ export default function () {
         chats,
         moodRating,
         moodRated,
-        skills,
+        skill,
         skillSelected,
-        skillRatings,
+        skillRating,
         skillsRated,
         isReflection,
         learnNewSkill,
         endSession,
         updateMoodRating,
-        updateSkillRatings,
-        updateSkills,
+        updateSkillRating,
+        updateSkill,
         toggleIsReflection,
         toggleLearnNewSkill,
         toggleEndSession,

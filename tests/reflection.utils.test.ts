@@ -7,8 +7,8 @@ const END_SESSION_KEY = "endSession";
 const IS_REFLECTION_KEY = "isReflection";
 const LEARN_NEW_SKILL_KEY = "learnNewSkill";
 const MOOD_RATING_KEY = "moodRating";
-const SKILL_RATINGS_KEY = "skillRatings";
-const SKILLS_KEY = "skills";
+const SKILL_RATING_KEY = "skillRating";
+const SKILL_KEY = "skill";
 const DAY_IN_MILLISECONDS = 8.64e7;
 
 describe("Reflection Utils", () => {
@@ -131,43 +131,31 @@ describe("Reflection Utils", () => {
         });
     });
 
-    describe("getSkillRatings", () => {
-        test("gets skillRatings from LocalStorage when it exists", () => {
-            const skillRatings = [
-                {
-                    skill: "This is a skill",
-                    rating: 7,
-                },
-                {
-                    skill: "This is a skill",
-                    rating: 3,
-                },
-            ];
-            localStorage.setItem(
-                SKILL_RATINGS_KEY,
-                JSON.stringify(skillRatings)
-            );
-            expect(getSkillRatings()).toStrictEqual(skillRatings);
-            expect(getItemSpy).toHaveBeenCalledWith(SKILL_RATINGS_KEY);
+    describe("getSkillRating", () => {
+        test("gets skillRating from LocalStorage when it exists", () => {
+            const skillRating = 7;
+            localStorage.setItem(SKILL_RATING_KEY, JSON.stringify(skillRating));
+            expect(getSkillRating()).toStrictEqual(skillRating);
+            expect(getItemSpy).toHaveBeenCalledWith(SKILL_RATING_KEY);
         });
 
-        test("gets empty skillRatings from LocalStorage when it doesn't exist", () => {
-            expect(getSkillRatings()).toHaveLength(0);
-            expect(getItemSpy).toHaveBeenCalledWith(SKILL_RATINGS_KEY);
+        test("gets null skillRating from LocalStorage when it doesn't exist", () => {
+            expect(getSkillRating()).toBeNull();
+            expect(getItemSpy).toHaveBeenCalledWith(SKILL_RATING_KEY);
         });
     });
 
-    describe("getSkills", () => {
-        test("gets skills from LocalStorage when it exists", () => {
-            const skills = ["This is a skill", "This is a skill"];
-            localStorage.setItem(SKILLS_KEY, JSON.stringify(skills));
-            expect(getSkills()).toStrictEqual(skills);
-            expect(getItemSpy).toHaveBeenCalledWith(SKILLS_KEY);
+    describe("getSkill", () => {
+        test("gets skill from LocalStorage when it exists", () => {
+            const skill = "This is a skill";
+            localStorage.setItem(SKILL_KEY, JSON.stringify(skill));
+            expect(getSkill()).toStrictEqual(skill);
+            expect(getItemSpy).toHaveBeenCalledWith(SKILL_KEY);
         });
 
-        test("gets empty skills from LocalStorage when it doesn't exist", () => {
-            expect(getSkills()).toHaveLength(0);
-            expect(getItemSpy).toHaveBeenCalledWith(SKILLS_KEY);
+        test("gets empty skill from LocalStorage when it doesn't exist", () => {
+            expect(getSkill()).toBeNull();
+            expect(getItemSpy).toHaveBeenCalledWith(SKILL_KEY);
         });
     });
 
@@ -179,8 +167,8 @@ describe("Reflection Utils", () => {
             expect(removeItemSpy).toHaveBeenCalledWith(IS_REFLECTION_KEY);
             expect(removeItemSpy).toHaveBeenCalledWith(LEARN_NEW_SKILL_KEY);
             expect(removeItemSpy).toHaveBeenCalledWith(MOOD_RATING_KEY);
-            expect(removeItemSpy).toHaveBeenCalledWith(SKILL_RATINGS_KEY);
-            expect(removeItemSpy).toHaveBeenCalledWith(SKILLS_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(SKILL_RATING_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(SKILL_KEY);
         });
     });
 });

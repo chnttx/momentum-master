@@ -9,6 +9,15 @@
                 <div id="chat" ref="chat">
                     <!-- Mood Rating Slider -->
                     <!-- Skill Selection Dropdown Menu -->
+                    <div class="message ai-message">
+                        <img
+                            src="@/assets/images/ai.jpg"
+                            class="ai-img"
+                            alt="AI"
+                        />
+                        <Dropdown @updateSkill="updateSkill" />
+                    </div>
+
                     <!-- Skill Rating Slider -->
                     <!-- Reflection messages -->
                     <div
@@ -116,7 +125,6 @@
 <script setup lang="ts">
 import dummyAvatar from "~/assets/images/dummy-avatar.jpg";
 import { type Chat } from "../../types/chat";
-import { type SkillRating } from "../../types/skillRating";
 
 const { getSession } = useAuth();
 const session = await getSession();
@@ -127,16 +135,16 @@ const {
     chats,
     moodRating,
     moodRated,
-    skills,
+    skill,
     skillSelected,
-    skillRatings,
+    skillRating,
     skillsRated,
     isReflection,
     learnNewSkill,
     endSession,
     updateMoodRating,
-    updateSkillRatings,
-    updateSkills,
+    updateSkillRating,
+    updateSkill,
     toggleIsReflection,
     toggleLearnNewSkill,
     toggleEndSession,
