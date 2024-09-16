@@ -29,7 +29,9 @@ export const getSkillUsedByUser = async (userId: number) => {
     return ratingsByUser    
 }
 
-
+/**
+ * Saves a new record to the skills rating table with the appropriate reflection id as the foreign key
+ */
 export const storeUserSkillRating = async (reflection_id: number, rating_id: number, skill_id: number ) => {
     const reflectionSkillRating = await prisma.skill_used.create({
         data: {
@@ -42,6 +44,9 @@ export const storeUserSkillRating = async (reflection_id: number, rating_id: num
     return reflectionSkillRating
 }
 
+/**
+ * Retrieves all rating terminology from the rating_terms table
+ */
 export const getSkillsRatingTerms = async () => {
 
     return prisma.rating_term.findMany();

@@ -1,5 +1,9 @@
 import prisma from "~/lib/prisma";
 
+/**
+ * questionsAndResponses is an array of objects with questions and answers
+ * Inserts all questionsAndResponses into the question_responses table within the postgres database
+ */
 export const addQuestionAndResponses = async ({ questionsAndResponses, reflectionId }: {
     questionsAndResponses: {
         questionId: number,

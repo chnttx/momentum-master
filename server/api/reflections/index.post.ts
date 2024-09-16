@@ -15,8 +15,8 @@ interface Body {
 }
 
 /**
- * Post endpoint insert reflection into database
- * body should contain
+ * Post endpoint to insert reflection into database
+ * body should contain everything in the body interface
 
  */
 export default defineEventHandler(async (event) => {

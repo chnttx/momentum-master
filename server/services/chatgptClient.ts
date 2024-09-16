@@ -6,6 +6,11 @@ export const openAIClient = new OpenAI({
     apiKey: process.env.CHATGPT_SECRET_KEY
 });
 
+
+/**
+ * Queries the chatGPT LLM and returns the message. Queries it with the userQuery and the systemQuery variables
+ * passed through
+ */
 export const queryChatGPT = async ({ systemQuery, userQuery }: { systemQuery: string, userQuery: string}) => {
 
     const response = await openAIClient.chat.completions.create({

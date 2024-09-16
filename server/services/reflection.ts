@@ -53,7 +53,10 @@ export const getRecommendedResources = async ({ userResponses, skill }: { userRe
 
 }
 
-
+/**
+ * Inserts a new reflection record into the reflection table. Also inserts according skill used records into the
+ * skill_used table and all the questions and responses into the question_responses table
+ */
 export const insertNewReflection = async ({ userId, date, moodRating, skillId, skillRatingId, questionsAndResponses }: {
     userId: number, date: Date, moodRating: number, skillId: number, skillRatingId: number, questionsAndResponses: {
         questionId: number,
