@@ -1,4 +1,4 @@
-import { queryChatGPT } from "~/server/services/chatgptClient";
+import {queryChatGPT} from "~/server/services/chatgptClient";
 import prisma from "~/lib/prisma";
 import {storeUserSkillRating} from "~/server/services/skill-used";
 import {addQuestionAndResponses} from "~/server/services/questionResponses";
@@ -10,14 +10,21 @@ import {addQuestionAndResponses} from "~/server/services/questionResponses";
 export const generateQuestions = async ( userResponse: string ) => {
     let questions: {question_id: number, description: string}[] = await getAllQuestions()
     questions = questions.filter(q => q.question_id != 1)
-    const questionsString: string = questions.map(q => `${q.description}\n`).toString()
+    const questionsString: string = questions.map(q => `${q.question_id}: ${q.description}\n`).toString()
     const prompt = `Based on the user's response, select the most appropriate question to respond with from these list 
-    of questions. Only state the question. \n\n ${questionsString}. `
+    of questions. Only state the question number. \n\n ${questionsString}. `
 
     const { message } = await queryChatGPT({systemQuery: prompt, userQuery: userResponse })
 
+    if (!message) {
+        throw new Error("No chatGPT response generated")
+    }
 
-    return message
+    return prisma.question.findFirst({
+        where: {
+            question_id: +message
+        }
+    })
 
 
 }
