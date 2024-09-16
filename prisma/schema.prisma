@@ -66,10 +66,10 @@ model Reflection {
   user_id Int 
   summary String @db.VarChar(255)
   mood_rating Int
-  focus String @db.VarChar(200)
   question_responses Question_response[]
+  id_skill Int
 
-  skills_used Skill_used[]
+  skills_used Skill_used? @relation()
   user User @relation(fields: [user_id], references: [user_id])
 }
 
@@ -98,11 +98,11 @@ model Rating_term {
 }
 
 model Skill_used {
-  reflection_id Int
+  reflection_id Int @unique
   id_rating Int
   id_skill Int
 
-  @@unique([reflection_id, id_rating])
+  @@unique([reflection_id, id_skill])
   skill Skill @relation(fields: [id_skill], references: [id_skill])
   rating Rating_term @relation(fields: [id_rating], references: [id_rating])
   reflection Reflection @relation(fields: [reflection_id], references: [reflection_id])
