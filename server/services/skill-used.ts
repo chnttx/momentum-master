@@ -1,4 +1,5 @@
 import prisma from "~/lib/prisma";
+import {as} from "vitest/dist/chunks/reporters.C_zwCd4j";
 
 //TODO: Write API endpoints to store user skill rating, 
 //TODO: retrieve information regarding skill used
@@ -40,4 +41,9 @@ export const storeUserSkillRating = async (reflection_id: number, rating_id: num
     })
 
     return reflectionSkillRating
+}
+
+export const getSkillsRatingTerms = async () => {
+
+    return prisma.rating_term.findMany();
 }

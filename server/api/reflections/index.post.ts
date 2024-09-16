@@ -4,7 +4,7 @@ import {Session} from "next-auth";
 import {insertNewReflection} from "~/server/services/reflection";
 
 interface Body {
-    date: string,
+    date: string, /* yyyy-mm-dd format */
     moodRating: number,
     skillId: number,
     skillRatingId: number,
