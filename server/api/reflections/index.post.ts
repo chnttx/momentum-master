@@ -6,12 +6,12 @@ import {insertNewReflection} from "~/server/services/reflection";
 interface Body {
     date: string,
     moodRating: number,
-    skillUsedId: number,
+    skillId: number,
     skillRatingId: number,
-    questionsAndResponses: [{
+    questionsAndResponses: {
         questionId: number,
         response: string
-    }]
+    }[]
 }
 
 /**
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
         const { user_id: userId } = user
         let { date, moodRating, skillId, skillRatingId, questionsAndResponses } = await readBody(event);
         date = new Date(date)
-        const { reflection, skillUsed } = await insertNewReflection({
+        const { reflection, skillUsed, qAndR } = await insertNewReflection({
             userId,
             date,
             moodRating,
@@ -51,7 +51,8 @@ export default defineEventHandler(async (event) => {
         })
         return {
             reflection: reflection,
-            skillUsed: skillUsed
+            skillUsed: skillUsed,
+            questionsAndResponses: qAndR
         }
     } catch (err) {
         console.error(err)
