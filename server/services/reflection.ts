@@ -1,5 +1,6 @@
 import { queryChatGPT } from "~/server/services/chatgptClient";
 import prisma from "~/lib/prisma";
+import {storeUserSkillRating} from "~/server/services/skill-used";
 
 /**
  * Queries the chatGPT LLM for a STAR question based on user's initial response to "How was your day?"
@@ -42,7 +43,30 @@ export const getRecommendedResources = async ({ userResponses, skill }: { userRe
 
     return message
 
+}
 
 
+export const insertNewReflection = async ({ userId, date, moodRating, skillId, skillRatingId, questionsAndResponses }: {
+    userId: number, date: Date, moodRating: number, skillId: number, skillRatingId: number, questionsAndResponses: {
+        questions: string,
+        answers: string
+    }
+    }) => {
+    const summary = "Placeholder Summary"
 
+    const reflection = await prisma.reflection.create({
+        data: {
+            date: date,
+            user_id: userId,
+            mood_rating: moodRating,
+            summary: summary
+
+        }
+    })
+
+    const { reflection_id: reflectionId } = reflection
+    const skillUsed = await storeUserSkillRating(reflectionId, skillRatingId, skillId )
+
+
+    return { reflection, skillUsed }
 }
