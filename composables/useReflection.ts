@@ -1,4 +1,4 @@
-import { type Chat } from "~/types/chat";
+import { type Chat } from "~/types/Chat";
 
 /**
  * Contains reactive variables and functions for the reflection function
@@ -14,6 +14,7 @@ export default function () {
     const endSession = ref<Boolean>(false);
 
     const moodRated = computed(() => {
+        console.log("moodRated updated");
         return moodRating.value != null;
     });
 
@@ -21,7 +22,7 @@ export default function () {
         return skill.value != null;
     });
 
-    const skillsRated = computed(() => {
+    const skillRated = computed(() => {
         return skillRating.value !== null;
     });
 
@@ -68,8 +69,6 @@ export default function () {
     }
 
     function updateSkill(selectedSkill: string) {
-        console.log(selectedSkill);
-        console.log("updated");
         skill.value = selectedSkill;
     }
 
@@ -78,7 +77,7 @@ export default function () {
     }
 
     function toggleIsReflection() {
-        if (moodRated && skillSelected && skillsRated)
+        if (moodRated && skillSelected && skillRated)
             isReflection.value = !isReflection.value;
     }
 
@@ -103,11 +102,11 @@ export default function () {
     return {
         chats,
         moodRating,
-        moodRated,
+        // moodRated,
         skill,
-        skillSelected,
+        // skillSelected,
         skillRating,
-        skillsRated,
+        // skillRated,
         isReflection,
         learnNewSkill,
         endSession,

@@ -1,4 +1,4 @@
-import { type Chat } from "../../types/chat";
+import { type Chat } from "../../types/Chat";
 import resetReflectionLocalStorage from "./resetReflectionLocalStorage";
 import resetLocalStorage from "./resetReflectionLocalStorage";
 /**

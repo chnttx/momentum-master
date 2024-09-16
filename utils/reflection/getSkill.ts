@@ -1,7 +1,9 @@
+import type { Skill } from "~/types/Skill";
+
 /**
  * Retrieve the user's selected skill from local storage
  *
- * @return {string | null} The skill
+ * @return {Skill | null} The skill
  */
 export default function () {
     const skill = JSON.parse(localStorage.getItem("skill") as string);

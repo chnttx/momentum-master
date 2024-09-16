@@ -8,17 +8,44 @@
                 <!-- Chat -->
                 <div id="chat" ref="chat">
                     <!-- Mood Rating Slider -->
-                    <!-- Skill Selection Dropdown Menu -->
                     <div class="message ai-message">
                         <img
                             src="@/assets/images/ai.jpg"
                             class="ai-img"
                             alt="AI"
                         />
-                        <Dropdown @updateSkill="updateSkill" />
+                        <Slider
+                            :min="0"
+                            :max="10"
+                            :texts="[`Terrible`, `Perfect`]"
+                            :question="`How was your day?`"
+                            :rating="`mood`"
+                        />
                     </div>
-
+                    <!-- Skill Selection Dropdown Menu -->
+                    <div v-if="moodRated" class="message ai-message">
+                        <img
+                            src="@/assets/images/ai.jpg"
+                            class="ai-img"
+                            alt="AI"
+                        />
+                        <Dropdown />
+                    </div>
                     <!-- Skill Rating Slider -->
+                    <div v-if="skillSelected" class="message ai-message">
+                        <img
+                            src="@/assets/images/ai.jpg"
+                            class="ai-img"
+                            alt="AI"
+                        />
+                        <Slider
+                            :min="0"
+                            :max="10"
+                            :texts="[`Shu`, `Ha`, `Ri`]"
+                            :question="`How would you rate your skill?`"
+                            :rating="`skill`"
+                        />
+                    </div>
                     <!-- Reflection messages -->
                     <div
                         v-for="(chat, i) in chats"
@@ -98,10 +125,9 @@
                             variant="none"
                             v-model="message"
                             :disabled="
-                                // !(moodRated && skillSelected && skillRated) ||
+                                !(moodRated && skillSelected && skillRated) ||
                                 (!isReflection && !learnNewSkill) ||
-                                endSession ||
-                                false
+                                endSession
                             "
                             :placeholder="
                                 learnNewSkill
@@ -124,8 +150,11 @@
 
 <script setup lang="ts">
 import dummyAvatar from "~/assets/images/dummy-avatar.jpg";
-import { type Chat } from "../../types/chat";
+import { type Chat } from "../../types/Chat";
 
+const { moodRated, moodRating, initMoodRating } = useMoodRating();
+const { skillRated, initSkillRating } = useSkillRating();
+const { skillSelected, initSkill } = useSkill();
 const { getSession } = useAuth();
 const session = await getSession();
 const layout = "board";
@@ -133,18 +162,9 @@ const userImage = session?.user?.image ? session.user.image : dummyAvatar;
 
 const {
     chats,
-    moodRating,
-    moodRated,
-    skill,
-    skillSelected,
-    skillRating,
-    skillsRated,
     isReflection,
     learnNewSkill,
     endSession,
-    updateMoodRating,
-    updateSkillRating,
-    updateSkill,
     toggleIsReflection,
     toggleLearnNewSkill,
     toggleEndSession,
@@ -173,6 +193,13 @@ const sendMessage = () => {
     // Get chatgpt response and add to chat
     chat.value.scrollTo(0, chat.value.scrollHeight);
 };
+
+onMounted(() => {
+    initMoodRating();
+    initSkill();
+    initSkillRating();
+    console.log(moodRated.value);
+});
 </script>
 
 <style scoped lang="scss">
