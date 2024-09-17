@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import type { Skill } from "~/types/Skill";
+
 const { skill, setSkill } = useSkill();
 
 const selectedOption = ref<Skill | null>(null);

@@ -1,22 +1,48 @@
 @import "~/assets/scss/_colors.scss";
 @import "~/assets/scss/_fonts.scss";
 
-.reflection-container {
+.page-container {
+    display: flex;
+    flex-direction: column;
     height: 100%;
+    max-height: 100%;
+    // overflow: hidden;
+    font-family: $font-family;
+}
+
+#end-session {
+    background: $primary;
+    color: white;
+    font-size: $base-font-size;
+    font-weight: $bold-font-weight;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: $font-family;
+    padding: 1rem;
+    height: 10%;
+}
+
+.end-session-reflection-container {
+    height: 90%;
+}
+
+.in-session-reflection-container {
+    height: 100%;
+}
+
+.reflection-container {
     width: 100%;
     padding: 0 2.5rem 1rem 2.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    font-family: $font-family;
     align-items: center;
 }
 
-.page-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: hidden;
+#chatbox {
+    width: 100%;
+    overflow-y: auto;
 }
 
 .message-input {
@@ -26,11 +52,6 @@
     border-radius: 10px;
     width: 70%;
     background: transparent;
-}
-
-#chatbox {
-    width: 100%;
-    overflow-y: auto;
 }
 
 .message {
@@ -58,7 +79,7 @@
     padding: 0.75rem;
     font-weight: $medium-font-weight;
     max-width: 60%;
-    overflow-wrap: normal;
+    overflow-wrap: break-word;
 }
 
 .user-text {
@@ -83,17 +104,6 @@
     }
 }
 
-#end-session {
-    background: $primary;
-    color: white;
-    font-size: $base-font-size;
-    font-weight: $bold-font-weight;
-    text-align: center;
-    vertical-align: middle;
-    font-family: $font-family;
-    padding: 1rem;
-}
-
 .container {
     width: 100%;
     height: fit-content;
@@ -101,6 +111,7 @@
     flex-direction: column;
     justify-content: flex-end;
     gap: 0.5rem;
+    padding: 0.5rem;
 }
 
 .message-box {

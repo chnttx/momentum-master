@@ -2,7 +2,7 @@ import type { Chat } from "~/types/Chat";
 
 const GREETING_QUESTION = { question: "How was your day?", id: 1 };
 const RECOMMENDATION_QUESTION = {
-    question: "What would you like to learn?",
+    question: "Here are my recommendations.",
     id: 100,
 };
 
@@ -45,12 +45,13 @@ export const useChat = () => {
             question: "Tell me more!",
         });
 
+        chat?.value.chatlog.push("Tell me more!");
+
         waitingForResponse.value = false;
     };
 
     // Add user's response to the previous question
     const addUserResponse = (questionId: number, newResponse: string) => {
-        console.log(questionId, newResponse);
         chat?.value.chatlog.push(newResponse);
         chat.value.questionResponses = chat.value.questionResponses.map(
             (questionResponse) => {
@@ -62,6 +63,16 @@ export const useChat = () => {
         if (import.meta.client)
             localStorage.setItem("chat", JSON.stringify(chat.value));
         waitingForResponse.value = true;
+    };
+
+    const fetchRecommendation = (skill: string) => {
+        // let response = // get resources from api
+
+        chat?.value.questionResponses.push({
+            id: RECOMMENDATION_QUESTION.id,
+            question: RECOMMENDATION_QUESTION.question,
+            response: "Resources",
+        });
     };
 
     const initChat = () => {
@@ -86,5 +97,7 @@ export const useChat = () => {
         initChat,
         fetchNewQuestion,
         addUserResponse,
+        fetchRecommendation,
+        RECOMMENDATION_QUESTION,
     };
 };
