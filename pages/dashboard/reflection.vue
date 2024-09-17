@@ -121,11 +121,7 @@
                     <!-- Message input -->
                     <form
                         v-if="!endSession"
-                        @keyup.enter.prevent="
-                            () => {
-                                sendMessage();
-                            }
-                        "
+                        @keyup.enter.prevent="() => sendMessage()"
                         class="message-input"
                     >
                         <UTextarea

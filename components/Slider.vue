@@ -8,7 +8,7 @@
                 :max="props.max"
                 v-model="sliderValue"
                 :disabled="isDisabled"
-                color="gray"
+                color="primary"
             />
             <span class="value">{{ props.max }}</span>
         </div>
