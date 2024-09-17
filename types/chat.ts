@@ -1,13 +1,12 @@
+import type { QuestionResponse } from "./QuestionResponse";
 /**
  * @typedef {Object} Chat
- * @property {Boolean} isUser Is the message created by the user
- * @property {Boolean} isReflection Is the message a part of the reflection
- * @property {string} text The content of the message
- * @property {number} time The creation time of the message in timestamp format
+ * @property {string} date The date of the reflection
+ * @property {string} chatlog A record of the entire chat
+ * @property {QuestionResponse} questionResponses The content of the chat
  */
 export type Chat = {
-    isUser: Boolean;
-    isReflection: Boolean;
-    text: string;
-    time: number;
+    date: string;
+    chatlog: string[];
+    questionResponses: QuestionResponse[];
 };

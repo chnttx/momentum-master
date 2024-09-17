@@ -6,7 +6,7 @@
             </div>
             <div class="reflection-container">
                 <!-- Chat -->
-                <div id="chat" ref="chat">
+                <div id="chatbox" ref="chatbox">
                     <!-- Mood Rating Slider -->
                     <div class="message ai-message">
                         <img
@@ -48,33 +48,39 @@
                     </div>
                     <!-- Reflection messages -->
                     <div
-                        v-for="(chat, i) in chats"
-                        :key="i"
-                        class="message"
-                        :class="chat.isUser ? 'user-message' : 'ai-message'"
+                        v-if="moodRated && skillSelected && skillRated"
+                        v-for="questionResponse in chat.questionResponses"
+                        :key="questionResponse.id"
+                        class="message-box"
                     >
-                        <img
-                            v-if="!chat.isUser"
-                            src="@/assets/images/ai.jpg"
-                            class="ai-img"
-                            alt="AI"
-                        />
-                        <div
-                            class="text"
-                            :class="chat.isUser ? 'user-text' : 'ai-text'"
-                        >
-                            {{ chat.text }}
+                        <div class="message ai-message">
+                            <img
+                                src="@/assets/images/ai.jpg"
+                                class="ai-img"
+                                alt="AI"
+                            />
+                            <div class="text ai-text">
+                                {{ questionResponse.question }}
+                            </div>
                         </div>
-                        <img v-if="chat.isUser" :src="userImage" alt="user" />
+                        <div
+                            v-if="questionResponse?.response"
+                            class="message user-message"
+                        >
+                            <div class="text user-text">
+                                {{ questionResponse.response }}
+                            </div>
+                            <img :src="userImage" alt="user" />
+                        </div>
                     </div>
                 </div>
 
                 <div class="container">
                     <!-- Buttons -->
                     <div
-                        v-if="isReflection"
+                        v-if="isReflection && hasAtLeastMinNumberResponses"
                         class="complete-btn"
-                        @click="toggleIsReflection"
+                        @click="() => setIsReflection(false)"
                     >
                         <UButton
                             color="black"
@@ -84,37 +90,42 @@
                             Complete reflection
                         </UButton>
                     </div>
-
-                    <div
-                        v-if="!isReflection && !learnNewSkill"
-                        class="complete-btn"
-                        @click="toggleLearnNewSkill"
-                    >
-                        <UButton
-                            color="black"
-                            :ui="{ rounded: 'rounded-full' }"
+                    <div class="horizontal-container">
+                        <div
+                            v-if="!isReflection && !learnNewSkill"
+                            class="complete-btn"
+                            @click="() => setLearnNewSkill(true)"
                         >
-                            Would you like to learn a new skill
-                        </UButton>
-                    </div>
+                            <UButton
+                                color="black"
+                                :ui="{ rounded: 'rounded-full' }"
+                            >
+                                Would you like to learn a new skill
+                            </UButton>
+                        </div>
 
-                    <div
-                        v-if="!isReflection && learnNewSkill && !endSession"
-                        class="complete-btn"
-                        @click="toggleEndSession"
-                    >
-                        <UButton
-                            color="black"
-                            :ui="{ rounded: 'rounded-full' }"
+                        <div
+                            v-if="!isReflection && !endSession"
+                            class="complete-btn"
+                            @click="() => setEndSession(true)"
                         >
-                            End today's session
-                        </UButton>
+                            <UButton
+                                color="white"
+                                :ui="{ rounded: 'rounded-full' }"
+                            >
+                                End today's session
+                            </UButton>
+                        </div>
                     </div>
 
                     <!-- Message input -->
                     <form
                         v-if="!endSession"
-                        @keyup.enter.prevent="sendMessage"
+                        @keyup.enter.prevent="
+                            () => {
+                                sendMessage();
+                            }
+                        "
                         class="message-input"
                     >
                         <UTextarea
@@ -125,6 +136,7 @@
                             variant="none"
                             v-model="message"
                             :disabled="
+                                waitingForResponse ||
                                 !(moodRated && skillSelected && skillRated) ||
                                 (!isReflection && !learnNewSkill) ||
                                 endSession
@@ -150,55 +162,70 @@
 
 <script setup lang="ts">
 import dummyAvatar from "~/assets/images/dummy-avatar.jpg";
-import { type Chat } from "../../types/Chat";
-
+import type { TempChat } from "../../types/TempChat";
+const MIN_RESPONSES_COUNT = 8;
 const { moodRated, moodRating, initMoodRating } = useMoodRating();
 const { skillRated, initSkillRating } = useSkillRating();
 const { skillSelected, initSkill } = useSkill();
+const {
+    isReflection,
+    learnNewSkill,
+    endSession,
+    setIsReflection,
+    setLearnNewSkill,
+    setEndSession,
+    initReflectionState,
+} = useReflectionState();
+
+const {
+    chat,
+    waitingForResponse,
+    currentID,
+    setChat,
+    initChat,
+    fetchNewQuestion,
+    addUserResponse,
+} = useChat();
+
 const { getSession } = useAuth();
 const session = await getSession();
 const layout = "board";
 const userImage = session?.user?.image ? session.user.image : dummyAvatar;
 
-const {
-    chats,
-    isReflection,
-    learnNewSkill,
-    endSession,
-    toggleIsReflection,
-    toggleLearnNewSkill,
-    toggleEndSession,
-} = useReflection();
-
 const message = ref("");
-const chat = ref<HTMLElement | null>(null);
+const chatbox = ref<HTMLElement | null>(null);
+const hasAtLeastMinNumberResponses = computed(() => {
+    console.log(chat.value.questionResponses.length > MIN_RESPONSES_COUNT);
+    return chat.value.questionResponses.length > MIN_RESPONSES_COUNT;
+});
 
-const alternate = ref<Boolean>(false); //Dev
-
-const sendMessage = () => {
+const sendMessage = async () => {
     let text = message.value.trim();
     if (text.length !== 0) {
-        chats.value.push({
-            // isUser: true,
-            isUser: alternate.value, // Dev
-            isReflection: isReflection.value,
-            text: text,
-            time: Date.now(),
-        });
-        message.value = "";
+        addUserResponse(currentID.value, text);
 
-        alternate.value = !alternate.value; // Dev
+        // Get chatgpt response and add to chat
+        if (true || !hasAtLeastMinNumberResponses) fetchNewQuestion(text);
     }
+    message.value = "";
 
-    // Get chatgpt response and add to chat
-    chat.value.scrollTo(0, chat.value.scrollHeight);
+    await nextTick();
+    scrollToBottom();
+};
+
+const scrollToBottom = () => {
+    chatbox.value.scrollTo({
+        top: chatbox.value.scrollHeight + 500000,
+        behavior: "smooth",
+    });
 };
 
 onMounted(() => {
     initMoodRating();
     initSkill();
     initSkillRating();
-    console.log(moodRated.value);
+    initChat();
+    initReflectionState();
 });
 </script>
 
