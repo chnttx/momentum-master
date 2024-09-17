@@ -3,7 +3,7 @@
  *
  */
 export default function () {
-    localStorage.removeItem("chats");
+    localStorage.removeItem("chat");
     localStorage.removeItem("moodRating");
     localStorage.removeItem("skill");
     localStorage.removeItem("skillRating");

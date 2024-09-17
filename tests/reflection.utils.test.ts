@@ -2,14 +2,13 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 import resetReflectionLocalStorage from "~/utils/reflection/resetReflectionLocalStorage";
 
-const CHATS_KEY = "chats";
+const CHAT_KEY = "chat";
 const END_SESSION_KEY = "endSession";
 const IS_REFLECTION_KEY = "isReflection";
 const LEARN_NEW_SKILL_KEY = "learnNewSkill";
 const MOOD_RATING_KEY = "moodRating";
 const SKILL_RATING_KEY = "skillRating";
 const SKILL_KEY = "skill";
-const DAY_IN_MILLISECONDS = 8.64e7;
 
 describe("Reflection Utils", () => {
     const getItemSpy = vi.spyOn(localStorage, "getItem");
@@ -22,50 +21,73 @@ describe("Reflection Utils", () => {
         setItemSpy.mockClear();
     });
 
-    describe("getChats", () => {
-        test("gets chats from LocalStorage when it exists", () => {
-            const chats = [
-                {
-                    isUser: false,
-                    isReflection: false,
-                    text: "This is a message",
-                    time: Date.now(),
-                },
-                {
-                    isUser: true,
-                    isReflection: true,
-                    text: "This is a message",
-                    time: Date.now(),
-                },
-            ];
-            localStorage.setItem(CHATS_KEY, JSON.stringify(chats));
-            expect(getChats()).toStrictEqual(chats);
-            expect(getItemSpy).toHaveBeenCalledWith(CHATS_KEY);
+    describe("getChat", () => {
+        test("gets chat from LocalStorage when it exists", () => {
+            const today = new Date();
+            const chat = {
+                date: today.toISOString(),
+                chatlog: [
+                    "This is a message",
+                    "This is a message",
+                    "This is a message",
+                    "This is a message",
+                ],
+                questionsAndResponses: [
+                    {
+                        id: 1,
+                        question: "This is a question",
+                        response: "This is a response",
+                    },
+                    {
+                        id: 1,
+                        question: "This is a question",
+                        response: "This is a response",
+                    },
+                ],
+            };
+            localStorage.setItem(CHAT_KEY, JSON.stringify(chat));
+            expect(getChat()).toStrictEqual(chat);
+            expect(getItemSpy).toHaveBeenCalledWith(CHAT_KEY);
         });
 
-        test("gets empty chats from LocalStorage for a new day", () => {
-            const chats = [
-                {
-                    isUser: false,
-                    isReflection: false,
-                    text: "This is a message",
-                    time: Date.now() - DAY_IN_MILLISECONDS,
-                },
-                {
-                    isUser: true,
-                    isReflection: true,
-                    text: "This is a message",
-                    time: Date.now() - DAY_IN_MILLISECONDS,
-                },
-            ];
-            localStorage.setItem(CHATS_KEY, JSON.stringify(chats));
-            expect(getChats()).toHaveLength(0);
-            expect(getItemSpy).toHaveBeenCalledWith(CHATS_KEY);
+        test("gets chat from LocalStorage when it exists but date is not today", () => {
+            const day = new Date("1995-12-17T03:24:00");
+            const chat = {
+                date: day.toISOString(),
+                chatlog: [
+                    "This is a message",
+                    "This is a message",
+                    "This is a message",
+                    "This is a message",
+                ],
+                questionsAndResponses: [
+                    {
+                        id: 1,
+                        question: "This is a question",
+                        response: "This is a response",
+                    },
+                    {
+                        id: 1,
+                        question: "This is a question",
+                        response: "This is a response",
+                    },
+                ],
+            };
+            localStorage.setItem(CHAT_KEY, JSON.stringify(chat));
+            expect(getChat()).toBeNull();
+            expect(getItemSpy).toHaveBeenCalledWith(CHAT_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(CHAT_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(END_SESSION_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(IS_REFLECTION_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(LEARN_NEW_SKILL_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(MOOD_RATING_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(SKILL_RATING_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(SKILL_KEY);
         });
 
-        test("gets empty chats from LocalStorage when it doesn't exist", () => {
-            expect(getChats()).toHaveLength(0);
-            expect(getItemSpy).toHaveBeenCalledWith(CHATS_KEY);
+        test("gets chat from LocalStorage when it doesn't exist", () => {
+            expect(getChat()).toBeNull();
+            expect(getItemSpy).toHaveBeenCalledWith(CHAT_KEY);
         });
     });
 
@@ -162,7 +184,7 @@ describe("Reflection Utils", () => {
     describe("resetReflectionLocalStorage", () => {
         test("reset reflection LocalStorage", () => {
             resetReflectionLocalStorage();
-            expect(removeItemSpy).toHaveBeenCalledWith(CHATS_KEY);
+            expect(removeItemSpy).toHaveBeenCalledWith(CHAT_KEY);
             expect(removeItemSpy).toHaveBeenCalledWith(END_SESSION_KEY);
             expect(removeItemSpy).toHaveBeenCalledWith(IS_REFLECTION_KEY);
             expect(removeItemSpy).toHaveBeenCalledWith(LEARN_NEW_SKILL_KEY);
