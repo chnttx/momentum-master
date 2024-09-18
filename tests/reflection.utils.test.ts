@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, test, vi } from "vitest";
-import resetReflectionLocalStorage from "~/utils/reflection/resetReflectionLocalStorage";
+import getRecommendationArr from "~/utils/reflection/getRecommendationArr";
 
 const CHAT_KEY = "chat";
 const END_SESSION_KEY = "endSession";
@@ -9,6 +9,7 @@ const LEARN_NEW_SKILL_KEY = "learnNewSkill";
 const MOOD_RATING_KEY = "moodRating";
 const SKILL_RATING_KEY = "skillRating";
 const SKILL_KEY = "skill";
+const RECOMMENDATION_ARR_KEY = "recommendationArr";
 
 describe("Reflection Utils", () => {
     const getItemSpy = vi.spyOn(localStorage, "getItem");
@@ -191,6 +192,23 @@ describe("Reflection Utils", () => {
             expect(removeItemSpy).toHaveBeenCalledWith(MOOD_RATING_KEY);
             expect(removeItemSpy).toHaveBeenCalledWith(SKILL_RATING_KEY);
             expect(removeItemSpy).toHaveBeenCalledWith(SKILL_KEY);
+        });
+    });
+
+    describe("getRecommendationArr", () => {
+        test("gets recommendationArr from LocalStorage when it exists", () => {
+            const recommendationArr = ["resource", "resource", "resource"];
+            localStorage.setItem(
+                RECOMMENDATION_ARR_KEY,
+                JSON.stringify(recommendationArr)
+            );
+            expect(getRecommendationArr()).toStrictEqual(recommendationArr);
+            expect(getItemSpy).toHaveBeenCalledWith(RECOMMENDATION_ARR_KEY);
+        });
+
+        test("gets recommendationArr from LocalStorage when it doesn't exist", () => {
+            expect(getRecommendationArr()).toHaveLength(0);
+            expect(getItemSpy).toHaveBeenCalledWith(RECOMMENDATION_ARR_KEY);
         });
     });
 });
