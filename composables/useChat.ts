@@ -1,9 +1,10 @@
 import type { Chat } from "~/types/Chat";
+import getRecommendationArr from "~/utils/reflection/getRecommendationArr";
 
-const GREETING_QUESTION = { question: "How was your day?", id: 1 };
+const GREETING_QUESTION = { question: "What did you do today?", id: -1 };
 const RECOMMENDATION_QUESTION = {
-    question: "Here are my recommendations.",
-    id: 100,
+    question: "Do you want to receive recommendations?",
+    id: -2,
 };
 
 export const useChat = () => {
@@ -21,7 +22,9 @@ export const useChat = () => {
         () => false
     );
 
-    const currentID = useState<number>("currentID", () => 1);
+    const currentIndex = useState<number>("currentIndex", () => 0);
+
+    const recommendationArr = useState<string[]>("recommendationArr", () => []);
 
     const setChat = (newChat: Chat) => {
         if (newChat?.chatlog && newChat?.questionResponses) {
@@ -31,48 +34,91 @@ export const useChat = () => {
         }
     };
 
-    const fakeId = useState<number>("fakeId", () => 2);
+    const setRecommendationArr = (newRecommendationArr: string[]) => {
+        recommendationArr.value = newRecommendationArr;
+        if (import.meta.client)
+            localStorage.setItem(
+                "recommendationArr",
+                JSON.stringify(recommendationArr.value)
+            );
+    };
+
     // Create a new question response and add to the questionResponses array
-    const fetchNewQuestion = (prevResponse: string) => {
-        // New question api
-
-        // Dev
-        fakeId.value++;
-        currentID.value = fakeId.value;
-
-        chat?.value.questionResponses.push({
-            id: currentID.value,
-            question: "Tell me more!",
+    const fetchNewQuestion = async (prevResponse: string) => {
+        const response = await $fetch("/api/ai/question", {
+            method: "POST",
+            body: {
+                userResponse: prevResponse,
+            },
         });
 
-        chat?.value.chatlog.push("Tell me more!");
+        console.log(response);
 
+        let question: { id: number; text: string } =
+            response != null
+                ? { id: response.question_id, text: response.description }
+                : {
+                      id: GREETING_QUESTION.id,
+                      text: GREETING_QUESTION.question,
+                  };
+
+        currentIndex.value++;
+
+        chat?.value.questionResponses.push({
+            id: question.id,
+            question: question.text,
+        });
+        chat?.value.chatlog.push(question.text);
+        if (import.meta.client)
+            localStorage.setItem("chat", JSON.stringify(chat.value));
         waitingForResponse.value = false;
     };
 
     // Add user's response to the previous question
-    const addUserResponse = (questionId: number, newResponse: string) => {
+    const addUserResponse = (newResponse: string) => {
         chat?.value.chatlog.push(newResponse);
-        chat.value.questionResponses = chat.value.questionResponses.map(
-            (questionResponse) => {
-                if (questionResponse.id == questionId)
-                    return { ...questionResponse, response: newResponse };
-                return questionResponse;
-            }
-        );
+        chat.value.questionResponses[currentIndex.value].response = newResponse;
         if (import.meta.client)
             localStorage.setItem("chat", JSON.stringify(chat.value));
         waitingForResponse.value = true;
     };
 
-    const fetchRecommendation = (skill: string) => {
-        // let response = // get resources from api
+    const fetchRecommendation = async (skill: string) => {
+        const chatlog = chat.value.chatlog.join("\n");
 
-        chat?.value.questionResponses.push({
-            id: RECOMMENDATION_QUESTION.id,
-            question: RECOMMENDATION_QUESTION.question,
-            response: "Resources",
+        const response = await $fetch("/api/ai/resources", {
+            method: "POST",
+            body: {
+                userResponse: chatlog,
+                skill,
+            },
         });
+
+        if (skill !== undefined) {
+            chat?.value.questionResponses.push({
+                id: RECOMMENDATION_QUESTION.id,
+                question: RECOMMENDATION_QUESTION.question,
+                response: preprocessRecommendationResponse(response),
+            });
+
+            if (import.meta.client)
+                localStorage.setItem("chat", JSON.stringify(chat.value));
+        }
+    };
+
+    const preprocessRecommendationResponse = (
+        response: {
+            resources: string | null;
+        } | null
+    ) => {
+        if (response == null || response.resources == null) return "Resources";
+        let recommendations = response.resources
+            .replaceAll("[", "")
+            .replaceAll("]", "");
+        let arr = recommendations.split(",");
+        arr = arr.map((resource) => resource.trim());
+        setRecommendationArr(arr);
+        return recommendations;
     };
 
     const initChat = () => {
@@ -83,16 +129,15 @@ export const useChat = () => {
             chat.value.chatlog.push(GREETING_QUESTION.question);
             chat.value.questionResponses.push({ ...GREETING_QUESTION });
         }
-        currentID.value =
-            chat.value.questionResponses[
-                chat.value.questionResponses.length - 1
-            ].id;
+        currentIndex.value = chat.value.questionResponses.length - 1;
+        setRecommendationArr(getRecommendationArr());
     };
 
     return {
         chat,
         waitingForResponse,
-        currentID,
+        currentIndex,
+        recommendationArr,
         setChat,
         initChat,
         fetchNewQuestion,

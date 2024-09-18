@@ -19,7 +19,7 @@
 import dummyAvatar from "~/assets/images/dummy-avatar.jpg";
 const { getSession } = useAuth();
 const session = await getSession();
-const username = session.user.name ? session.user.name : "username";
+const username = session?.user?.name ? session.user.name : "username";
 const userImage = session?.user?.image ? session.user.image : dummyAvatar;
 </script>
 
