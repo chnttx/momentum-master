@@ -299,8 +299,6 @@ const scrollToBottom = () => {
 };
 
 const postReflection = async () => {
-    // POST reflection data to server
-    console.log("posting reflection");
     const questionsAndResponses = chat.value.questionResponses.map((item) => ({
         questionId: item.id,
         response: item.response as string,
@@ -313,7 +311,15 @@ const postReflection = async () => {
         skillRatingId: skillRating.value as number,
         questionsAndResponses,
     };
+
+    const response = await $fetch("/api/reflections", {
+        method: "POST",
+        body: {
+            ...payload,
+        },
+    });
     console.log(payload);
+    console.log(response);
 };
 
 onMounted(() => {
