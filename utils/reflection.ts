@@ -7,4 +7,4 @@ export * from "./reflection/getSkillRating";
 export * from "./reflection/getSkill";
 export * from "./reflection/resetReflectionLocalStorage";
 export * from "./reflection/getChat";
-export * from "./reflection/getRecommendationArr.js";
+export * from "./reflection/getRecommendationArr";

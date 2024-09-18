@@ -22,7 +22,7 @@
                             alt="AI"
                         />
                         <Slider
-                            :min="0"
+                            :min="1"
                             :max="10"
                             :texts="[`Terrible`, `Perfect`]"
                             :question="`How was your day?`"
@@ -46,8 +46,8 @@
                             alt="AI"
                         />
                         <Slider
-                            :min="0"
-                            :max="10"
+                            :min="1"
+                            :max="3"
                             :texts="[`Shu`, `Ha`, `Ri`]"
                             :question="`How would you rate your skill?`"
                             :rating="`skill`"

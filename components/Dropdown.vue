@@ -2,7 +2,7 @@
     <div class="question">
         <div class="message-box">
             <div class="label">What skill have you used today?</div>
-            <select v-if="!isDisabled" v-model="selectedOption" id="options">
+            <!-- <select v-if="!isDisabled" v-model="selectedOption" id="options">
                 <option
                     v-for="option in options"
                     :key="option.id"
@@ -11,7 +11,17 @@
                     {{ option.name }}
                 </option>
             </select>
-            <div v-else id="skill">{{ skill.name }}</div>
+            <div v-else id="skill">{{ skill.name }}</div> -->
+            <select v-if="!isDisabled" v-model="selectedOption" id="options">
+                <option
+                    v-for="skill in skills"
+                    :key="skill.id_skill"
+                    :value="{ id: skill.id_skill, name: skill.name }"
+                >
+                    {{ skill.name }}
+                </option>
+            </select>
+            <div v-else id="skill">{{ skill?.name }}</div>
         </div>
         <div v-if="!isDisabled" class="complete-btn" @click="finaliseSelection">
             <UButton
@@ -35,22 +45,9 @@ const isDisabled = computed(() => {
     return skill.value != null;
 });
 
-// Call api to get skills and ids
-const options = [
-    { id: 1, name: "Active Listening" },
-    { id: 2, name: "Accountability" },
-    { id: 3, name: "Constructive Feedback" },
-    { id: 4, name: "Collaboration" },
-    { id: 5, name: "Conflict Resolution" },
-    { id: 6, name: "Inclusive Leadership" },
-    { id: 7, name: "Stress Management" },
-    { id: 8, name: "Delegation" },
-    { id: 9, name: "Critical Thinking" },
-    { id: 10, name: "Interpersonal Communication" },
-    { id: 11, name: "Conflict Resolution" },
-    { id: 12, name: "Time Management" },
-    { id: 13, name: "Adaptability" },
-];
+const { data: skills } = await useFetch("/api/skills", {
+    method: "GET",
+});
 
 const finaliseSelection = () => {
     if (selectedOption.value != null && !isDisabled.value) {
