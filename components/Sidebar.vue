@@ -8,32 +8,32 @@
     <nav class="sidebar">
         <ul class="nav-list">
             <li>
-                <NuxtLink to="/Dashboard">
+                <NuxtLink to="/dashboard">
                     <i class="fas fa-dashboard"></i> <span>Dashboard</span>
                 </NuxtLink>
             </li>
             <li>
-                <NuxtLink to="/Reflection">
+                <NuxtLink to="/dashboard/reflection">
                     <i class="fas fa-eye"></i> <span>Reflection</span>
                 </NuxtLink>
             </li>
             <li>
-                <NuxtLink to="/Skills">
+                <NuxtLink to="/dashboard/skills">
                     <i class="fas fa-cogs"></i> <span>Skills</span>
                 </NuxtLink>
             </li>
             <li>
-                <NuxtLink to="/Journal">
+                <NuxtLink to="/dashboard/journal">
                     <i class="fas fa-book"></i> <span>Journal</span>
                 </NuxtLink>
             </li>
             <li>
-                <NuxtLink to="/Security">
+                <NuxtLink to="/dashboard/security">
                     <i class="fas fa-lock"></i> <span>Security</span>
                 </NuxtLink>
             </li>
             <li>
-                <NuxtLink to="/Settings">
+                <NuxtLink to="/dashboard/settings">
                     <i class="fas fa-cog"></i> <span>Settings</span>
                 </NuxtLink>
             </li>
@@ -44,9 +44,7 @@
     </nav>
 </template>
 
-<script lang="ts">
-
-</script>
+<script lang="ts"></script>
 
 <style scoped lang="scss">
 @use "~/assets/scss/sidebar.scss";

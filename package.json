@@ -4,14 +4,15 @@
     "type": "module",
     "scripts": {
         "build": "nuxt build",
-        "dev": "nuxi dev --dotenv .env",
-        "test": "vitest",
+        "dev": "nuxi dev",
+        "test": "vitest --coverage",
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare"
     },
     "dependencies": {
         "@auth0/auth0-vue": "^2.3.3",
+        "@nuxt/ui": "^2.18.4",
         "@prisma/client": "^5.19.1",
         "@vercel/postgres": "^0.9.0",
         "nuxt": "^3.13.0",
@@ -21,6 +22,7 @@
     "devDependencies": {
         "@nuxt/test-utils": "^3.14.1",
         "@sidebase/nuxt-auth": "^0.9.1",
+        "@vitest/coverage-v8": "^2.1.1",
         "@vue/test-utils": "^2.4.6",
         "happy-dom": "^14.12.3",
         "playwright-core": "^1.46.1",

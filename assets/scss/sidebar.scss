@@ -37,21 +37,16 @@ a {
         flex-direction: column;
 
         li {
-            a {
-                i {
-                    color: $primary;
-                }
-
-                &:hover {
-                    background-color: $primary;
-                    color: $secondary;
-                }
-            }
             &:active {
                 color: $primary;
             }
         }
     }
+}
+
+.router-link-active {
+    background: $primary;
+    color: $secondary;
 }
 
 .logout-button {
