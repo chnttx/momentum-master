@@ -9,7 +9,7 @@ import {addQuestionAndResponses} from "~/server/services/questionResponses";
  */
 export const generateQuestions = async ( userResponse: string ) => {
     let questions: {question_id: number, description: string}[] = await getAllQuestions()
-    questions = questions.filter(q => q.question_id != 1)
+    questions = questions.filter(q => q.question_id !== -1 && q.question_id !== -2)
     const questionsString: string = questions.map(q => `${q.question_id}: ${q.description}\n`).toString()
     const prompt = `Based on the user's response, select the most appropriate question to respond with from these list 
     of questions. Only state the question number. \n\n ${questionsString}. `
