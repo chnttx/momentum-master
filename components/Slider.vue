@@ -2,7 +2,7 @@
     <div id="slider-wrapper">
         <div id="text">{{ props.question }}</div>
         <div id="slider">
-            <span class="value">{{ props.min }}</span>
+            <span class="value">1</span>
             <URange
                 :min="props.min"
                 :max="props.max"
@@ -10,7 +10,7 @@
                 :disabled="isDisabled"
                 color="primary"
             />
-            <span class="value">{{ props.max }}</span>
+            <span class="value">10</span>
         </div>
         <div id="slider-text-wrapper">
             <span v-for="(text, index) in props.texts" :key="index">{{
@@ -39,7 +39,7 @@ const props = defineProps<{
     max: number;
     texts: string[];
     question: string;
-    rating: MOOD_KEY | SKILL_KEY;
+    rating: string;
 }>();
 
 const sliderValue = ref<number>(0);
@@ -57,10 +57,10 @@ onMounted(() => {
 });
 
 const submitValue = () => {
-    if (props.rating == MOOD_KEY) {
+    if (props.rating == MOOD_KEY && sliderValue.value != 0) {
         setMoodRating(sliderValue.value);
     }
-    if (props.rating == SKILL_KEY) {
+    if (props.rating == SKILL_KEY && sliderValue.value != 0) {
         setSkillRating(sliderValue.value);
     }
 };

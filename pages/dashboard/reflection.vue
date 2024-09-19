@@ -22,7 +22,7 @@
                             alt="AI"
                         />
                         <Slider
-                            :min="0"
+                            :min="1"
                             :max="10"
                             :texts="[`Terrible`, `Perfect`]"
                             :question="`How was your day?`"
@@ -46,8 +46,8 @@
                             alt="AI"
                         />
                         <Slider
-                            :min="0"
-                            :max="10"
+                            :min="1"
+                            :max="3"
                             :texts="[`Shu`, `Ha`, `Ri`]"
                             :question="`How would you rate your skill?`"
                             :rating="`skill`"
@@ -96,7 +96,15 @@
                                 alt="AI"
                             />
                             <div class="text ai-text">
-                                {{ questionResponse.response }}
+                                <div
+                                    class="resource"
+                                    v-for="(
+                                        resource, index
+                                    ) in recommendationArr"
+                                    :key="index"
+                                >
+                                    {{ index + 1 }}. {{ resource }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,7 +136,11 @@
                                 waitingForResponse
                             "
                             class="complete-btn"
-                            @click="getOneMoreQuestion"
+                            @click="
+                                async () => {
+                                    await getOneMoreQuestion();
+                                }
+                            "
                         >
                             <UButton
                                 color="white"
@@ -142,8 +154,9 @@
                             v-if="!isReflection && !learnNewSkill"
                             class="complete-btn"
                             @click="
-                                () => {
-                                    fetchRecommendation(skill.name);
+                                async () => {
+                                    if (skill != null)
+                                        await fetchRecommendation(skill.name);
                                     setLearnNewSkill(true);
                                     setEndSession(true);
                                     postReflection();
@@ -180,7 +193,7 @@
                     <!-- Message input -->
                     <form
                         v-if="isReflection"
-                        @keyup.enter.prevent="() => sendMessage()"
+                        @keyup.enter.prevent="async () => await sendMessage()"
                         class="message-input"
                     >
                         <UTextarea
@@ -191,9 +204,9 @@
                             variant="none"
                             v-model="message"
                             :disabled="
-                                waitingForResponse ||
+                                (waitingForResponse ||
                                 !(moodRated && skillSelected && skillRated) ||
-                                !isReflection
+                                !isReflection) as boolean
                             "
                             :placeholder="
                                 learnNewSkill
@@ -216,7 +229,8 @@
 
 <script setup lang="ts">
 import dummyAvatar from "~/assets/images/dummy-avatar.jpg";
-const MIN_RESPONSES_COUNT = 8;
+import type { Reflection } from "~/types/payload/Reflection";
+const MIN_RESPONSES_COUNT = 1; // 8
 const { moodRated, moodRating, initMoodRating } = useMoodRating();
 const { skillRated, skillRating, initSkillRating } = useSkillRating();
 const { skill, skillSelected, initSkill } = useSkill();
@@ -233,8 +247,7 @@ const {
 const {
     chat,
     waitingForResponse,
-    currentID,
-    setChat,
+    recommendationArr,
     initChat,
     fetchNewQuestion,
     addUserResponse,
@@ -259,45 +272,54 @@ const hasAtLeastMinNumberResponses = computed(() => {
 
 const sendMessage = async () => {
     let text = message.value.trim();
-    if (text.length !== 0) {
-        addUserResponse(currentID.value, text);
-
-        if (!hasAtLeastMinNumberResponses.value) fetchNewQuestion(text);
-    }
     message.value = "";
+    if (text.length !== 0) {
+        addUserResponse(text);
+
+        if (!hasAtLeastMinNumberResponses.value) await fetchNewQuestion(text);
+    }
     lastUserResponse.value = text;
+
     await nextTick();
     scrollToBottom();
 };
 
 const getOneMoreQuestion = async () => {
-    fetchNewQuestion(lastUserResponse.value);
+    await fetchNewQuestion(lastUserResponse.value);
     await nextTick();
     scrollToBottom();
 };
 
 const scrollToBottom = () => {
-    chatbox.value.scrollTo({
-        top: chatbox.value.scrollHeight + 500000,
-        behavior: "smooth",
-    });
+    if (chatbox.value != null)
+        chatbox.value.scrollTo({
+            top: chatbox.value.scrollHeight + 500000,
+            behavior: "smooth",
+        });
 };
 
 const postReflection = async () => {
-    // POST reflection data to server
-    console.log("posting reflection");
     const questionsAndResponses = chat.value.questionResponses.map((item) => ({
         questionId: item.id,
-        response: item.response,
+        response: item.response as string,
     }));
+    const skillId = skill.value ? skill.value.id : -1;
     const payload: Reflection = {
         date: chat.value.date,
-        moodRating: moodRating.value,
-        skillId: skill.value.id,
-        skillRating: skillRating.value,
+        moodRating: moodRating.value as number,
+        skillId: skillId,
+        skillRatingId: skillRating.value as number,
         questionsAndResponses,
     };
+
+    const response = await $fetch("/api/reflections", {
+        method: "POST",
+        body: {
+            ...payload,
+        },
+    });
     console.log(payload);
+    console.log(response);
 };
 
 onMounted(() => {

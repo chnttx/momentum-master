@@ -1,5 +1,9 @@
 image: node:20
 
+# default:
+#     tags:
+#         - node
+
 cache:
     paths:
         - node_modules/
