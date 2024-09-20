@@ -1,10 +1,8 @@
-import { getServerSession } from "#auth";
-import { getUserByUsername } from "~/server/services/user";
-import { Session } from "next-auth";
 import { insertNewReflection } from "~/server/services/reflection";
+import {extractUserFromSession} from "~/server/services/session";
 
 interface Body {
-    date: string /* yyyy-mm-dd format */;
+    date: string | Date /* yyyy-mm-dd format */;
     moodRating: number;
     skillId: number;
     skillRatingId: number;
@@ -20,25 +18,10 @@ interface Body {
 
  */
 export default defineEventHandler(async (event) => {
-    const session: Session | null = await getServerSession(event);
 
-    if (!session) {
-        setResponseStatus(event, 403, "No session cookie");
-        return;
-    }
-
-    const {
-        user: { email },
-    } = session;
-    const user: {
-        user_id: number;
-        username: string;
-        profile_image: string | null;
-    } | null = await getUserByUsername({ username: email });
-
+    const user = await extractUserFromSession(event)
     if (!user) {
-        setResponseStatus(event, 403, "No user found");
-        return;
+        return
     }
     try {
         const { user_id: userId } = user;
@@ -48,7 +31,7 @@ export default defineEventHandler(async (event) => {
             skillId,
             skillRatingId,
             questionsAndResponses,
-        } = await readBody(event);
+        }: Body = await readBody(event);
         date = new Date(date);
         const { reflection, skillUsed, qAndR } = await insertNewReflection({
             userId,

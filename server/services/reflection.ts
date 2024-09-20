@@ -84,3 +84,11 @@ export const insertNewReflection = async ({ userId, date, moodRating, skillId, s
 
     return { reflection, skillUsed, qAndR }
 }
+
+export const getAllReflectionsByUser = async (userId: number) => {
+    return prisma.reflection.findMany({
+        where: {
+            user_id: userId
+        }
+    })
+}
