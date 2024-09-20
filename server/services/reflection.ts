@@ -93,14 +93,47 @@ export const getAllReflectionsByUser = async (userId: number) => {
     })
 }
 
-export const getReflectionById = (reflectionId: number) => {
+export const getReflectionById = async (reflectionId: number) => {
 
-    return prisma.reflection.findFirst({
+    let reflection = await prisma.reflection.findFirst({
         where: {
             reflection_id: reflectionId
         },
+
         include: {
-            user: true
+
+            question_responses: {
+                include: {
+
+                    question: {
+                        select: {
+                            description: true
+                        }
+                    }
+                },
+
+
+            }
         }
     })
+
+    if (reflection !== null) {
+
+        let questionResponses = reflection.question_responses
+        const newQuestionResponses = questionResponses.map(response => {
+            return {
+                answer: response.answer,
+                question: response.question.description
+            }
+        })
+        return {
+            reflection_id: reflection.reflection_id,
+            date: reflection.date,
+            user_id: reflection.user_id,
+            summary: reflection.summary,
+            mood_rating: reflection.mood_rating,
+            question_responses: newQuestionResponses
+        }
+    }
+
 }
