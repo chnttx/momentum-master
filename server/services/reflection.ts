@@ -92,3 +92,15 @@ export const getAllReflectionsByUser = async (userId: number) => {
         }
     })
 }
+
+export const getReflectionById = (reflectionId: number) => {
+
+    return prisma.reflection.findFirst({
+        where: {
+            reflection_id: reflectionId
+        },
+        include: {
+            user: true
+        }
+    })
+}
