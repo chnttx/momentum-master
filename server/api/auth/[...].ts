@@ -1,7 +1,6 @@
 import Auth0Provider from "next-auth/providers/auth0";
 import { NuxtAuthHandler } from "#auth";
-import {createUser, doesUserExist, getUserById} from "~/server/services/user";
-import {ca} from "cronstrue/dist/i18n/locales/ca";
+import {createUser, doesUserExist } from "~/server/services/user";
 
 export default NuxtAuthHandler({
     secret: process.env.SECRET,
@@ -9,7 +8,7 @@ export default NuxtAuthHandler({
         Auth0Provider.default({
             clientId: process.env.AUTH0_CLIENT_ID as string,
             clientSecret: process.env.AUTH0_CLIENT_SECRET as string,
-            issuer: process.env.AUTH0_DOMAIN,
+            issuer: `https://${process.env.AUTH0_DOMAIN}`,
         }),
     ],
     callbacks: {

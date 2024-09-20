@@ -1,6 +1,9 @@
 import prisma from "~/lib/prisma";
 
-
+/**
+ *
+ * Retrieves a user by id from the postgres database
+ */
 export const getUserById = async ({ id }: { id: string }) => {
     return prisma.user.findUnique({
         where: {
@@ -8,7 +11,10 @@ export const getUserById = async ({ id }: { id: string }) => {
         }
     });
 }
-
+/**
+ *
+ * Retrieves the user by username from the postgres database
+ */
 export const getUserByUsername = async ({ username }: {username: string}) => {
 
     return prisma.user.findFirst({
@@ -17,7 +23,10 @@ export const getUserByUsername = async ({ username }: {username: string}) => {
         }
     })
 }
-
+/**
+ *
+ * Inserts a new user into the postgres database
+ */
 export const createUser = async ({ username, profileImage }:
     { username: string, profileImage?: string }) => {
 

@@ -1,14 +1,25 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+
 export default defineNuxtConfig({
     compatibilityDate: "2024-04-03",
     devtools: { enabled: true },
-    modules: ["@nuxt/test-utils/module", "@sidebase/nuxt-auth"],
+    modules: ["@nuxt/test-utils/module", "@sidebase/nuxt-auth", "@nuxt/ui"],
+    runtimeConfig: {
+        public: {
+            BASE_URL:
+                process.env.BASE_URL || `https://${process.env.VERCEL_URL}`,
+            AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
+            AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
+        },
+    },
     auth: {
         globalAppMiddleware: true,
         isEnabled: true,
         disableServerSideAuth: false,
         originEnvKey: "AUTH_ORIGIN",
-        baseURL: "http://localhost:3000/api/auth",
+        baseURL:
+            process.env.BASE_URL ||
+            `https://${process.env.VERCEL_URL}/api/auth`,
         provider: {
             type: "authjs",
             trustHost: false,

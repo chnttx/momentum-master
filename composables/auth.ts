@@ -1,5 +1,3 @@
-import { signOut } from "next-auth/react";
-import { AUTH0_CLIENT_ID, AUTH0_DOMAIN, BASE_URL } from "~/utils/constants";
 
 export const handleLogin = async () => {
     const { signIn } = useAuth();
@@ -7,11 +5,19 @@ export const handleLogin = async () => {
 };
 
 export const handleAuth0Logout = async () => {
-    const redirectUrl = `${BASE_URL}/logout`;
+    const runtimeConfig = useRuntimeConfig()
 
-    window.location.href = `https://${AUTH0_DOMAIN}/oidc/logout?client_id=${AUTH0_CLIENT_ID}&post_logout_redirect_uri=${redirectUrl}`;
+
+    const redirectUrl = `${runtimeConfig.public.BASE_URL}/logout`;
+
+    window.location.href = `https://${runtimeConfig.public.AUTH0_DOMAIN}/oidc/logout?client_id=`
+        + `${runtimeConfig.public.AUTH0_CLIENT_ID}&post_logout_redirect_uri=${redirectUrl}`;
 };
 
 export const handleApplicationLogout = async () => {
+    const { signOut } = useAuth()
+
+
     await signOut();
+
 };
