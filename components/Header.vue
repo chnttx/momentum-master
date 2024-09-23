@@ -16,11 +16,18 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import dummyAvatar from "~/assets/images/dummy-avatar.jpg";
+const username = ref("username");
+const userImage = ref(dummyAvatar);
+
 const { getSession } = useAuth();
-const session = await getSession();
-const username = session?.user?.name ? session.user.name : "username";
-const userImage = session?.user?.image ? session.user.image : dummyAvatar;
+
+onMounted(async () => {
+    const session = await getSession();
+    username.value = session?.user?.name ?? "username";
+    userImage.value = session?.user?.image ?? dummyAvatar;
+});
 </script>
 
 <style scoped lang="scss">
