@@ -9,7 +9,7 @@ import {addQuestionAndResponses} from "~/server/services/questionResponses";
  */
 export const generateQuestions = async ( userResponse: string ) => {
     let questions: {question_id: number, description: string}[] = await getAllQuestions()
-    questions = questions.filter(q => q.question_id != 1)
+    questions = questions.filter(q => q.question_id !== -1 && q.question_id !== -2)
     const questionsString: string = questions.map(q => `${q.question_id}: ${q.description}\n`).toString()
     const prompt = `Based on the user's response, select the most appropriate question to respond with from these list 
     of questions. Only state the question number. \n\n ${questionsString}. `
@@ -83,4 +83,57 @@ export const insertNewReflection = async ({ userId, date, moodRating, skillId, s
 
 
     return { reflection, skillUsed, qAndR }
+}
+
+export const getAllReflectionsByUser = async (userId: number) => {
+    return prisma.reflection.findMany({
+        where: {
+            user_id: userId
+        }
+    })
+}
+
+export const getReflectionById = async (reflectionId: number) => {
+
+    let reflection = await prisma.reflection.findFirst({
+        where: {
+            reflection_id: reflectionId
+        },
+
+        include: {
+
+            question_responses: {
+                include: {
+
+                    question: {
+                        select: {
+                            description: true
+                        }
+                    }
+                },
+
+
+            }
+        }
+    })
+
+    if (reflection !== null) {
+
+        let questionResponses = reflection.question_responses
+        const newQuestionResponses = questionResponses.map(response => {
+            return {
+                answer: response.answer,
+                question: response.question.description
+            }
+        })
+        return {
+            reflection_id: reflection.reflection_id,
+            date: reflection.date,
+            user_id: reflection.user_id,
+            summary: reflection.summary,
+            mood_rating: reflection.mood_rating,
+            question_responses: newQuestionResponses
+        }
+    }
+
 }
