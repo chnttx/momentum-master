@@ -2,6 +2,7 @@ import {queryChatGPT} from "~/server/services/chatgptClient";
 import prisma from "~/lib/prisma";
 import {storeUserSkillRating} from "~/server/services/skill-used";
 import {addQuestionAndResponses} from "~/server/services/questionResponses";
+import {QuestionAnswersInterface} from "~/server/interface/QuestionAnswersInterface";
 
 /**
  * Queries the chatGPT LLM for a STAR question based on user's initial response to "How was your day?"
@@ -58,12 +59,9 @@ export const getRecommendedResources = async ({ userResponses, skill }: { userRe
  * skill_used table and all the questions and responses into the question_responses table
  */
 export const insertNewReflection = async ({ userId, date, moodRating, skillId, skillRatingId, questionsAndResponses }: {
-    userId: number, date: Date, moodRating: number, skillId: number, skillRatingId: number, questionsAndResponses: {
-        questionId: number,
-        response: string
-    }[]
+    userId: number, date: Date, moodRating: number, skillId: number, skillRatingId: number, questionsAndResponses: QuestionAnswersInterface[]
     }) => {
-    const summary = "Placeholder Summary"
+    const summary = await generateReflectionSummary(questionsAndResponses)
 
     const reflection = await prisma.reflection.create({
         data: {
@@ -126,6 +124,7 @@ export const getReflectionById = async (reflectionId: number) => {
                 question: response.question.description
             }
         })
+
         return {
             reflection_id: reflection.reflection_id,
             date: reflection.date,
@@ -136,4 +135,29 @@ export const getReflectionById = async (reflectionId: number) => {
         }
     }
 
+}
+
+
+
+export const generateReflectionSummary = async (chatHistory: QuestionAnswersInterface[]) => {
+    let qAndRs = chatHistory.map(async (qAndR) => {
+        const question = await prisma.question.findFirst({
+            where: {
+                question_id: qAndR.questionId
+            }
+        })
+        const questionDescription = question?.description
+        return `${questionDescription} ${qAndR.response}\n`
+    })
+
+    const s = await Promise.all(qAndRs)
+    const chatHistoryString = s.reduce((allQAndRs, currQAndR) => allQAndRs + currQAndR, "")
+
+    const systemQuery = "Generate a summary based on the user's chatHistory"
+    const { message: summary } = await queryChatGPT({systemQuery, userQuery: chatHistoryString})
+    if (summary === null) {
+        throw new Error("ChatGPT failed to generate summary")
+    }
+
+    return summary
 }
