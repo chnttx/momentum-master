@@ -17,6 +17,7 @@ export const extractUserFromSession = async (event:  H3Event<EventHandlerRequest
     const {
         user: { email },
     } = session;
+    
     const user: {
         user_id: number;
         username: string;
