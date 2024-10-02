@@ -1,15 +1,13 @@
 import { insertNewReflection } from "~/server/services/reflection";
 import {extractUserFromSession} from "~/server/services/session";
+import {QuestionAnswersInterface} from "~/server/interface/QuestionAnswersInterface";
 
 interface Body {
     date: string | Date /* yyyy-mm-dd format */;
     moodRating: number;
     skillId: number;
     skillRatingId: number;
-    questionsAndResponses: {
-        questionId: number;
-        response: string;
-    }[];
+    questionsAndResponses: QuestionAnswersInterface[];
 }
 
 /**
