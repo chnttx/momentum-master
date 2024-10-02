@@ -66,6 +66,7 @@ export const insertNewReflection = async ({ userId, date, moodRating, skillId, s
     const summary = "Placeholder Summary"
 
     const reflection = await prisma.reflection.create({
+        // @ts-expect-error
         data: {
             date: date,
             user_id: userId,
@@ -86,11 +87,17 @@ export const insertNewReflection = async ({ userId, date, moodRating, skillId, s
 }
 
 export const getAllReflectionsByUser = async (userId: number) => {
-    return prisma.reflection.findMany({
+    const reflections = await prisma.reflection.findMany({
         where: {
             user_id: userId
+        },
+        select : {
+            summary: true,
+            date: true
         }
     })
+    console.log(reflections);
+    return reflections
 }
 
 export const getReflectionById = async (reflectionId: number) => {
