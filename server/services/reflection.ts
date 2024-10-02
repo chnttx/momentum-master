@@ -92,11 +92,13 @@ export const getAllReflectionsByUser = async (userId: number) => {
             user_id: userId
         },
         select : {
-            summary: true,
-            date: true
+            date: true,
+            summary: true
+        },
+        orderBy : {
+            date: "desc"
         }
     })
-    console.log(reflections);
     return reflections
 }
 
