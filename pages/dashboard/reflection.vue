@@ -299,7 +299,7 @@ const scrollToBottom = () => {
 };
 
 const postReflection = async () => {
-    const questionsAndResponses = chat.value.questionResponses.map((item) => ({
+    const questionsAndResponses = chat.value.questionResponses.map((item: any) => ({
         questionId: item.id,
         response: item.response as string,
     }));

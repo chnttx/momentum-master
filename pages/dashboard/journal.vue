@@ -4,9 +4,9 @@
             <div class="journal-history">
                 <div id="recent">Recent</div>
                 <div class="searchbar">
-                    <input type="date" v-model="selectedDate" @input="onDateChange" class="date-input"/>
+                    <input type="date" v-model="selectedDate" @input="onDateChange" class="date-input" placeholder="Select a date"/>
                 </div>
-                    <ul class="reflection-list" v-if="paginatedReflections.length" v-for="reflection in reflections">
+                    <ul class="reflection-list" v-if="reflections.length" v-for="reflection in reflections">
                         <li class="reflection-item" onclick="window.location.href='/dashboard/reflection'">
                             <p style="font-size: smaller">{{ reflection.date }}</p>
                             <div>{{ reflection.summary }}</div>
@@ -113,15 +113,15 @@ const reflections = [
     }
 ]
 
-const paginatedReflections = computed(() => {
-    const start = (page.value - 1) * limit.value;
-    const end = start + limit.value;
-    return reflections.slice(start, end);
-})
+const reflectionsWithIsoDates = reflections.map(reflection => ({
+    ...reflection,
+    date: new Date(reflection.date).toISOString().split('T')[0],
+}));
+
+
+
 const layout = "board"
 const selectedDate = ref('')
-const page = ref(1)
-const limit = ref(10)
 
 
 // // Get all reflections for the user
@@ -133,18 +133,19 @@ const limit = ref(10)
 //     }
 // })
 
-// Helper functions for pagination
-function nextPage() { page.value++; }
-function previousPage() {
-    if (page.value > 1) {
-        page.value--;
-    }
+function findReflections(date: string) {
+    const reflections = reflectionsWithIsoDates.filter(reflection => reflection.date === date);
+    console.log("Reflections for date:", date, ":", reflections);
+    // reflections.value = reflections;
 }
 
 function onDateChange(event: Event) {
     const target = event.target as HTMLInputElement;
     console.log("Selected date: ", target.value);
+    selectedDate.value = target.value;
+    findReflections(selectedDate.value);
 }
+
 
 </script>
 
