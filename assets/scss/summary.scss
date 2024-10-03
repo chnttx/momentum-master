@@ -1,0 +1,96 @@
+@import "~/assets/scss/_colors.scss";
+@import "~/assets/scss/_fonts.scss";
+
+.page-container {
+    width: 70%;
+    padding: 1rem;
+    height: 100%;
+    font-family: $font-family;
+  }
+  
+  .header {
+    background-color: $primary;
+    padding: 1rem;
+    border-style: solid;
+    height: 10%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .header h1 {
+  margin: 0;
+  font-size: 1rem;
+  color: $secondary;
+ 
+}
+
+.title {
+  font-size: 1.5rem;
+  color: $secondary;
+  align-self: center;
+  flex: 1;
+  margin-left: 15%;
+}
+  .content {
+    margin-top: 2rem;
+    margin-left: 5%;
+    max-height: 20rem;
+    overflow: auto;
+    padding-top: 1rem;
+  }
+
+  .skills-container {
+    display: flex; 
+    flex-wrap: wrap; 
+  }
+  
+  .skill-item {
+    background-color: $primary; 
+    color: $secondary; 
+    padding: 0.5rem 1rem; 
+    margin-right: 0.5rem; 
+    border-radius: 0.5rem; 
+  }
+
+  .summary {
+    padding-top: 2rem;
+  }
+
+  .summary p {
+    margin-top: 1rem;
+    text-align: justify;
+    margin-right: 2rem;
+  }
+
+  .dropdown {
+    margin-top: 2rem;
+    height:auto;
+  }
+  
+  .dropdown-toggle {
+    background-color: #474747;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 95%;
+  }
+  
+  .dropdown-content {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    z-index: 1;
+    width: 95%; 
+    text-align: justify;
+  }
+  
+  .scrollable-area {
+    max-height: 10rem; 
+    overflow-y: auto;
+    padding: 10px;
+  }
+  
+  
