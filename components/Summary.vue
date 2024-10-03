@@ -1,97 +1,89 @@
 <template>
-    <div class="page-container">
+    <div class="summary-page-container">
         <div class="header">
             <h1>Date: {{ currentDate }}</h1>
             <div class="title">
-                <h2>Title</h2>
+                <h2>{{ id }}</h2>
             </div>
         </div>
 
-        <div class="content">
+        <div class="summary-content">
             <div class="skills">
                 <p>Skill Used:</p>
-                <span class="skill-item">{{ skill }}</span>
+                <span class="skill-item">{{ reflection?.skill_used }}</span>
             </div>
             <div class="summary">
                 <h1>Summary:</h1>
-                <p>{{ summary }}</p>
+                <p>{{ reflection?.summary }}</p>
             </div>
             <div class="dropdown">
                 <div @click="toggleDropdown" class="dropdown-toggle">
-                    History
+                    <div>History</div>
+                    <span v-if="!isOpen" class="material-icons"
+                        >keyboard_arrow_down</span
+                    >
+                    <span v-else class="material-icons">keyboard_arrow_up</span>
                 </div>
                 <div v-if="isOpen" class="dropdown-content">
                     <div class="scrollable-area">
-                        <p>
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book. It has
-                            survived not only five centuries, but also the leap
-                            into electronic typesetting, remaining essentially
-                            unchanged. It was popularised in the 1960s with the
-                            release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing
-                            software like Aldus PageMaker including versions of
-                            Lorem Ipsum Lorem Ipsum is simply dummy text of the
-                            printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since
-                            the 1500s, when an unknown printer took a galley of
-                            type and scrambled it to make a type specimen book.
-                            It has survived not only five centuries, but also
-                            the leap into electronic typesetting, remaining
-                            essentially unchanged. It was popularised in the
-                            1960s with the release of Letraset sheets containing
-                            Lorem Ipsum passages, and more recently with desktop
-                            publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum Lorem Ipsum is simply dummy
-                            text of the printing and typesetting industry. Lorem
-                            Ipsum has been the industry's standard dummy text
-                            ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type
-                            specimen book. It has survived not only five
-                            centuries, but also the leap into electronic
-                            typesetting, remaining essentially unchanged. It was
-                            popularised in the 1960s with the release of
-                            Letraset sheets containing Lorem Ipsum passages, and
-                            more recently with desktop publishing software like
-                            Aldus PageMaker including versions of Lorem Ipsum
-                            Lorem Ipsum is simply dummy text of the printing and
-                            typesetting industry. Lorem Ipsum has been the
-                            industry's standard dummy text ever since the 1500s,
-                            when an unknown printer took a galley of type and
-                            scrambled it to make a type specimen book. It has
-                            survived not only five centuries, but also the leap
-                            into electronic typesetting, remaining essentially
-                            unchanged. It was popularised in the 1960s with the
-                            release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing
-                            software like Aldus PageMaker including versions of
-                            Lorem Ipsum Lorem Ipsum is simply dummy text of the
-                            printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since
-                            the 1500s, when an unknown printer took a galley of
-                            type and scrambled it to make a type specimen book.
-                            It has survived not only five centuries, but also
-                            the leap into electronic typesetting, remaining
-                            essentially unchanged. It was popularised in the
-                            1960s with the release of Letraset sheets containing
-                            Lorem Ipsum passages, and more recently with desktop
-                            publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum Lorem Ipsum is simply dummy
-                            text of the printing and typesetting industry. Lorem
-                            Ipsum has been the industry's standard dummy text
-                            ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type
-                            specimen book. It has survived not only five
-                            centuries, but also the leap into electronic
-                            typesetting, remaining essentially unchanged. It was
-                            popularised in the 1960s with the release of
-                            Letraset sheets containing Lorem Ipsum passages, and
-                            more recently with desktop publishing software like
-                            Aldus PageMaker including versions of Lorem Ipsum
-                        </p>
+                        <!-- <p>
+                            {{ reflection?.summary }}
+                        </p> -->
+                        <div
+                            v-for="(
+                                questionResponse, index
+                            ) in reflection?.question_responses"
+                            :key="index"
+                            class="message-box"
+                        >
+                            <div class="message ai-message">
+                                <img
+                                    src="@/assets/images/ai.jpg"
+                                    class="ai-img"
+                                    alt="AI"
+                                />
+                                <div class="text ai-text">
+                                    {{ questionResponse.question }}
+                                </div>
+                            </div>
+                            <div
+                                v-if="
+                                    questionResponse?.answer &&
+                                    questionResponse.questionId !==
+                                        RECOMMENDATION_QUESTION.id
+                                "
+                                class="message user-message"
+                            >
+                                <div class="text user-text">
+                                    {{ questionResponse.answer }}
+                                </div>
+                                <img :src="userImage" alt="user" />
+                            </div>
+                            <div
+                                v-if="
+                                    questionResponse.questionId ==
+                                    RECOMMENDATION_QUESTION.id
+                                "
+                                class="message ai-message"
+                            >
+                                <img
+                                    src="@/assets/images/ai.jpg"
+                                    class="ai-img"
+                                    alt="AI"
+                                />
+                                <div class="text ai-text">
+                                    <div
+                                        class="resource"
+                                        v-for="(
+                                            resource, index
+                                        ) in recommendationArr"
+                                        :key="index"
+                                    >
+                                        {{ index + 1 }}. {{ resource }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,8 +92,23 @@
 </template>
 
 <script setup lang="ts">
+import dummyAvatar from "~/assets/images/dummy-avatar.jpg";
+const { RECOMMENDATION_QUESTION } = useChat();
+const { getSession } = useAuth();
+const session = await getSession();
+
+const props = defineProps(["reflectionId"]);
+const id = ref(props.reflectionId);
+const { data: reflection } = await useFetch(
+    `/api/reflections?reflectionId=${id.value}`
+);
+
+const userImage = session?.user?.image ? session.user.image : dummyAvatar;
+
 const currentDate = computed(() => {
-    const today = new Date();
+    const dateString = reflection.value?.date;
+    let today = dateString ? new Date(dateString) : new Date();
+
     return today.toLocaleDateString(undefined, {
         year: "numeric",
         month: "long",
@@ -109,14 +116,28 @@ const currentDate = computed(() => {
     });
 });
 
-const skill = "idk";
 const isOpen = ref(false);
 
 const toggleDropdown = () => {
     isOpen.value = !isOpen.value;
 };
-const summary =
-    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+
+const recommendationArr = computed(() => {
+    let recommendation = null;
+    if (!reflection.value?.question_responses) return null;
+    for (let question of reflection.value.question_responses) {
+        if (question.questionId == RECOMMENDATION_QUESTION.id) {
+            recommendation = question.answer
+                .replaceAll("[", "")
+                .replaceAll("]", "");
+            let arr = recommendation.split(",");
+            return arr.map((resource) => resource.trim());
+        }
+    }
+    return null;
+});
+
+console.log(reflection.value?.question_responses);
 </script>
 
 <style scoped lang="scss">

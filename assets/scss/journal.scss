@@ -13,7 +13,7 @@
     border: 2px solid #007bff; /* Border color */
     border-radius: 20px; /* Rounded borders */
     outline: none; /* Remove default outline */
-    width: 200px; /* Set a width for the input */
+    width: 70%; /* Set a width for the input */
     transition: border-color 0.3s; /* Smooth transition for border color */
     background-color: $secondary;
 }
@@ -31,6 +31,7 @@
 
 .journal-history {
     width: 25%;
+    max-width: 25%;
     overflow-y: auto;
     border-right: 1px $primary solid;
     // height: 100%;
@@ -43,14 +44,13 @@
 
 .chat-loaded {
     width: 75%;
+    max-width: 75%;
 }
 
 li.reflection-item {
     border-top: 0.5px $primary solid;
     border-bottom: 0.5px $primary solid;
-    border-right: 0.5px $primary solid;
     padding: 0.75rem 0.5rem 0.75rem 0.5rem;
-    border-radius: 0.5rem;
 
     p {
         font-size: $base-font-size;
@@ -58,8 +58,11 @@ li.reflection-item {
     }
 
     div {
-        font-size: $base-font-size * 1.15;
+        font-size: $base-font-size;
         padding: 0.25rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
@@ -67,7 +70,7 @@ li.reflection-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: $font-size-xl;
+    font-size: $base-font-size * 1.2;
     font-weight: bolder;
     padding: 1rem 0.5rem 0.5rem 0.5rem;
 }

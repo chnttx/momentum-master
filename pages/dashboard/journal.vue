@@ -19,7 +19,11 @@
                 >
                     <li
                         class="reflection-item"
-                        onclick="window.location.href='/dashboard/reflection'"
+                        @click="
+                            () => {
+                                selectReflection(reflection.reflection_id);
+                            }
+                        "
                     >
                         <p style="font-size: smaller">
                             {{ new Date(reflection.date).getDate() }}-{{
@@ -49,16 +53,21 @@
                     "
                 ></div>
             </div>
-            <div class="chat-loaded"><Summary /></div>
+            <div class="chat-loaded">
+                <Summary
+                    v-if="selectedReflection"
+                    :reflectionId="selectedReflection"
+                    :key="selectedReflection"
+                />
+            </div>
         </div>
     </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-
 // Fetching reflections from API
 const { data: reflections } = await useFetch("/api/reflections/user");
+const selectedReflection = ref<number | null>(null);
 
 const layout = "board";
 const selectedDate = ref("");
@@ -82,6 +91,10 @@ const filteredReflections = computed(() => {
 function onDateChange(event: Event) {
     const target = event.target as HTMLInputElement;
     selectedDate.value = target.value;
+}
+
+function selectReflection(reflectionId: number) {
+    selectedReflection.value = reflectionId;
 }
 </script>
 
