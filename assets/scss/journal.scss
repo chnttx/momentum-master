@@ -2,25 +2,24 @@
 @import "~/assets/scss/_fonts.scss";
 
 .searchbar {
-  display: flex;
-  justify-content: center; /* Center the search bar horizontally */
-  padding: 1rem; /* Add some padding around the search bar */
-//   font-family: $font-family;
+    display: flex;
+    justify-content: center; /* Center the search bar horizontally */
+    padding: 1rem; /* Add some padding around the search bar */
+    //   font-family: $font-family;
 }
 
 .date-input {
-  padding: 10px; /* Add padding inside the input */
-  border: 2px solid #007bff; /* Border color */
-  border-radius: 20px; /* Rounded borders */
-  outline: none; /* Remove default outline */
-  width: 200px; /* Set a width for the input */
-  transition: border-color 0.3s; /* Smooth transition for border color */
-  background-color: $secondary;
-  
+    padding: 10px; /* Add padding inside the input */
+    border: 2px solid #007bff; /* Border color */
+    border-radius: 20px; /* Rounded borders */
+    outline: none; /* Remove default outline */
+    width: 200px; /* Set a width for the input */
+    transition: border-color 0.3s; /* Smooth transition for border color */
+    background-color: $secondary;
 }
 
 .date-input:focus {
-  border-color: #0056b3; /* Change border color on focus */
+    border-color: #0056b3; /* Change border color on focus */
 }
 
 .flex-container {
@@ -31,8 +30,9 @@
 }
 
 .journal-history {
-    width : 30%;
+    width: 25%;
     overflow-y: auto;
+    border-right: 1px $primary solid;
     // height: 100%;
     // max-height: 100%;
 }
@@ -42,7 +42,7 @@
 // }
 
 .chat-loaded {
-    width : 70%;
+    width: 75%;
 }
 
 li.reflection-item {
@@ -51,24 +51,23 @@ li.reflection-item {
     border-right: 0.5px $primary solid;
     padding: 0.75rem 0.5rem 0.75rem 0.5rem;
     border-radius: 0.5rem;
-    
 
     p {
         font-size: $base-font-size;
-        padding: 0.25rem
+        padding: 0.25rem;
     }
-    
+
     div {
         font-size: $base-font-size * 1.15;
-        padding: 0.25rem
+        padding: 0.25rem;
     }
 }
 
 #recent {
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     font-size: $font-size-xl;
     font-weight: bolder;
-    padding: 1rem 0.5rem 0.5rem 0.5rem
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
 }
