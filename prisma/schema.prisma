@@ -64,7 +64,7 @@ model Reflection {
   reflection_id Int @id @default(autoincrement())
   date DateTime @default(now()) @db.Date
   user_id Int 
-  summary String @db.VarChar(255)
+  summary String @db.VarChar(2048)
   mood_rating Int
   question_responses Question_response[]
 
