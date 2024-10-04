@@ -29,12 +29,13 @@ a {
     align-items: center;
     justify-content: space-between;
     gap: 5rem;
-    width: fit-content;
+    width: 15%;
 
     .nav-list {
         list-style-type: none;
         display: flex;
         flex-direction: column;
+        width: 100%;
 
         li {
             &:active {

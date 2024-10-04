@@ -1,0 +1,151 @@
+@import "~/assets/scss/_colors.scss";
+@import "~/assets/scss/_fonts.scss";
+
+.summary-page-container {
+    width: 100%;
+    height: 100%;
+    font-family: $font-family;
+    overflow-y: hidden;
+}
+
+.header {
+    background-color: $primary;
+    position: relative;
+    border-style: solid;
+    height: 8%;
+    width: 100%;
+}
+
+.header h1 {
+    font-size: 1rem;
+    color: $secondary;
+    float: left;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.title {
+    font-size: 1.5rem;
+    color: $secondary;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow-y: auto;
+    height: 92%;
+    margin: 0.5rem 0;
+}
+
+.skills {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    padding: 0 0.5rem;
+}
+
+.skill-item {
+    background-color: $primary;
+    color: $secondary;
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.summary {
+    padding: 0 0.5rem;
+}
+
+.summary p {
+    margin-top: 1rem;
+    text-align: justify;
+    margin-right: 2rem;
+    overflow-wrap: break-word;
+}
+
+.dropdown {
+    height: fit-content;
+    max-height: 50%;
+}
+
+.dropdown-toggle {
+    background-color: #474747;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-content {
+    background-color: white;
+    border: 1px solid #ddd;
+    z-index: 1;
+    width: 100%;
+    text-align: justify;
+}
+
+#chatbox {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.message {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    padding: 0.5rem;
+}
+
+.user-message {
+    justify-content: flex-end;
+}
+
+.ai-message {
+    justify-content: flex-start;
+}
+
+.message > img {
+    height: 30px;
+    border-radius: 50%;
+}
+
+.text {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-weight: $medium-font-weight;
+    max-width: 60%;
+    overflow-wrap: break-word;
+}
+
+.user-text {
+    background-color: $primary;
+    color: white;
+}
+
+.ai-text {
+    border: 1px $primary solid;
+    color: $primary;
+}
+
+.ai-img {
+    border: 1px $primary solid;
+}
+
+.message-box {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+}

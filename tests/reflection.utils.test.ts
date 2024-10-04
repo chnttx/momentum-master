@@ -1,6 +1,14 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, test, vi } from "vitest";
 import getRecommendationArr from "~/utils/reflection/getRecommendationArr";
+import getMoodRating from "~/utils/reflection/getMoodRating";
+import getChat from "~/utils/reflection/getChat";
+import getEndSession from "~/utils/reflection/getEndSession";
+import getIsReflection from "~/utils/reflection/getIsReflection";
+import getLearnNewSkill from "~/utils/reflection/getLearnNewSkill";
+import getSkill from "~/utils/reflection/getSkill";
+import getSkillRating from "~/utils/reflection/getSkillRating";
+import resetReflectionLocalStorage from "~/utils/reflection/resetReflectionLocalStorage";
 
 const CHAT_KEY = "chat";
 const END_SESSION_KEY = "endSession";
