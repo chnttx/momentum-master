@@ -90,7 +90,6 @@ export const insertNewReflection = async ({
     const summary = await generateReflectionSummary(questionsAndResponses);
 
     const reflection = await prisma.reflection.create({
-        // @ts-expect-error
         data: {
             date: date,
             user_id: userId,
@@ -142,9 +141,16 @@ export const getReflectionById = async (reflectionId: number) => {
                     question: {
                         select: {
                             description: true,
+
                         },
                     },
+
+
                 },
+                orderBy: {
+                    question_response_id: "asc"
+                }
+
             },
             skills_used: {
                 include: {
@@ -157,6 +163,7 @@ export const getReflectionById = async (reflectionId: number) => {
             },
         },
     });
+
 
     if (reflection !== null) {
         let questionResponses = reflection.question_responses;
