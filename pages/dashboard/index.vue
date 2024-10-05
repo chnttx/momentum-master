@@ -12,7 +12,11 @@
                     id="calendar"
                     class="dashboard-box dashboard-right-box"
                 ></div>
-                <div id="quote" class="dashboard-box dashboard-right-box"></div>
+                <div id="quote" class="dashboard-box dashboard-right-box">
+                    <div>"{{ quote[0].q }}"</div>
+                    <div id="breakline"></div>
+                    <div>{{ quote[0].a }}</div>
+                </div>
             </div>
         </div>
     </NuxtLayout>
@@ -20,6 +24,8 @@
 
 <script setup lang="ts">
 const layout = "board";
+const { data: quote } = await useFetch("https://zenquotes.io/api/random");
+console.log(quote.value[0]);
 </script>
 
 <style scoped lang="scss">
