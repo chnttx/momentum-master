@@ -8,12 +8,13 @@ import { QuestionAnswersInterface } from "~/server/interface/QuestionAnswersInte
  * Queries the chatGPT LLM for a STAR question based on user's initial response to "How was your day?"
  * Takes in userResponse: string as input and outputs a string, the question
  */
-export const generateQuestions = async (userResponse: string) => {
+export const generateQuestions = async (userResponse: string, questionsAsked: Set<number>) => {
     let questions: { question_id: number; description: string }[] =
         await getAllQuestions();
     questions = questions.filter(
-        (q) => q.question_id !== -1 && q.question_id !== -2
+        (q) => q.question_id !== -1 && q.question_id !== -2 && !questionsAsked.has(q.question_id)
     );
+
     const questionsString: string = questions
         .map((q) => `${q.question_id}: ${q.description}\n`)
         .toString();
@@ -24,7 +25,6 @@ export const generateQuestions = async (userResponse: string) => {
         systemQuery: prompt,
         userQuery: userResponse,
     });
-
     if (!message) {
         throw new Error("No chatGPT response generated");
     }
