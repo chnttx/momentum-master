@@ -1,0 +1,92 @@
+@import "~/assets/scss/_colors.scss";
+@import "~/assets/scss/_fonts.scss";
+
+#dashboard-container {
+    font-family: $font-family;
+    background-color: #f8f8f8;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+}
+
+#dashboard-left {
+    width: 55%;
+    padding: 1.5rem 0;
+}
+
+#dashboard-right {
+    width: 35%;
+
+    padding: 1.5rem 0;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-left-box {
+    width: 100%;
+}
+
+.dashboard-right-box {
+    width: 100%;
+}
+
+#calendar {
+    height: 55%;
+}
+
+#quote {
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+    font-weight: $bold-font-weight;
+}
+
+#breakline {
+    width: 100%;
+    height: 1px;
+    background-color: $primary;
+}
+
+.dashboard-box {
+    background-color: white;
+    border-radius: 10px;
+    filter: drop-shadow(2px 4px 5px #a3a3a3);
+    width: 100%;
+}
+
+#skill-focused {
+    height: 20%;
+    position: relative;
+}
+
+#focus-text {
+    position: absolute;
+    top: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+#focus-description {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+#skill-bar-chart {
+    height: 35%;
+}
+
+#goals {
+    height: 35%;
+}
