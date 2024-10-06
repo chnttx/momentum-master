@@ -43,7 +43,7 @@ export default defineNuxtConfig({
             crossOriginResourcePolicy: "cross-origin",
         },
         corsHandler: {
-            origin: ["https://zenquotes.io"],
+            origin: ["https://zenquotes.io/", "https://www.google.com/"],
         },
     },
     css: ["~/assets/css/reset.css"],

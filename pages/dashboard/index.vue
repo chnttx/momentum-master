@@ -30,9 +30,9 @@
                     class="dashboard-box dashboard-right-box"
                 ></div>
                 <div id="quote" class="dashboard-box dashboard-right-box">
-                    <div>"{{ quote[0].q }}"</div>
+                    <div>"{{ quote.quote }}"</div>
                     <div id="breakline"></div>
-                    <div>{{ quote[0].a }}</div>
+                    <div>{{ quote.author }}</div>
                 </div>
             </div>
         </div>
@@ -41,9 +41,8 @@
 
 <script setup lang="ts">
 const layout = "board";
-const { data: quote } = await useFetch("https://zenquotes.io/api/random");
+const { data: quote } = await useFetch("/api/quote");
 const { data: skills_used } = await useFetch("/api/skills_used/user");
-console.log(skills_used);
 </script>
 
 <style scoped lang="scss">
