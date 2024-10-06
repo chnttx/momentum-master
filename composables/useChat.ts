@@ -45,10 +45,13 @@ export const useChat = () => {
 
     // Create a new question response and add to the questionResponses array
     const fetchNewQuestion = async (prevResponse: string) => {
+        const questionsAsked = chat?.value.questionResponses.map(c => c.id)
+
         const response = await $fetch("/api/ai/question", {
             method: "POST",
             body: {
                 userResponse: prevResponse,
+                questionsAsked: questionsAsked
             },
         });
 

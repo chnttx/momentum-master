@@ -29,7 +29,6 @@
 }
 
 .dashboard-left-box {
-    height: 30%;
     width: 100%;
 }
 
@@ -58,9 +57,36 @@
 }
 
 .dashboard-box {
-    // border: 2px $primary solid;
     background-color: white;
     border-radius: 10px;
-    // box-shadow: 1px 2px 1px #f8f8f8;
     filter: drop-shadow(2px 4px 5px #a3a3a3);
+    width: 100%;
+}
+
+#skill-focused {
+    height: 20%;
+    position: relative;
+}
+
+#focus-text {
+    position: absolute;
+    top: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+#focus-description {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+#skill-bar-chart {
+    height: 35%;
+}
+
+#goals {
+    height: 35%;
 }
