@@ -95,10 +95,9 @@
                 </div>
             </div>
             <div id="dashboard-right" class="dashboard-content">
-                <div
-                    id="calendar"
-                    class="dashboard-box dashboard-right-box"
-                ></div>
+                <div id="calendar" class="dashboard-box dashboard-right-box">
+                    <VCalendar expanded :attributes="attrs" />
+                </div>
                 <div id="quote" class="dashboard-box dashboard-right-box">
                     <div>"{{ quote.quote }}"</div>
                     <div id="breakline"></div>
@@ -113,9 +112,24 @@
 const GOAL_COMPLETED_STATUS_ID = 3;
 const skillProficiencyClasses = ["shu", "ha", "ri"];
 const layout = "board";
+const dateHighlight = {
+    color: "purple",
+    fillMode: "solid",
+};
 const { data: quote } = await useFetch("/api/quote");
 const { data: skills_used } = await useFetch("/api/skills_used/user");
 const { data: goals } = await useFetch("/api/goals/user");
+const { data: reflections } = await useFetch("/api/reflections/user");
+
+const attrs = ref([]);
+
+reflections.value.forEach((reflection) => {
+    attrs.value.push({
+        key: reflection.date,
+        highlight: dateHighlight,
+        dates: new Date(reflection.date),
+    });
+});
 
 const filteredGoals = goals.value.filter(
     (goal) => goal.id_goal_status != GOAL_COMPLETED_STATUS_ID
@@ -131,6 +145,8 @@ for (let goal of filteredGoals) {
 
 if (skills_used.value.length > 3)
     skills_used.value = skills_used.value.slice(0, 3);
+
+console.log(reflections);
 </script>
 
 <style scoped lang="scss">

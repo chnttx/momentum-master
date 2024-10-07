@@ -3,12 +3,7 @@
 export default defineNuxtConfig({
     compatibilityDate: "2024-04-03",
     devtools: { enabled: true },
-    modules: [
-        "@nuxt/test-utils/module",
-        "@sidebase/nuxt-auth",
-        "@nuxt/ui",
-        "nuxt-security",
-    ],
+    modules: ["@nuxt/test-utils/module", "@sidebase/nuxt-auth", "@nuxt/ui", "nuxt-security", "@samk-dev/nuxt-vcalendar"],
     runtimeConfig: {
         public: {
             BASE_URL:
