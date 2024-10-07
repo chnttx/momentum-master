@@ -3,6 +3,7 @@ import prisma from "~/lib/prisma";
 import { storeUserSkillRating } from "~/server/services/skill-used";
 import { addQuestionAndResponses } from "~/server/services/questionResponses";
 import { QuestionAnswersInterface } from "~/server/interface/QuestionAnswersInterface";
+import {chatGPTError} from "~/server/error/chatGPTError";
 
 /**
  * Queries the chatGPT LLM for a STAR question based on user's initial response to "How was your day?"
@@ -25,13 +26,15 @@ export const generateQuestions = async (userResponse: string, questionsAsked: Se
         systemQuery: prompt,
         userQuery: userResponse,
     });
-    if (!message) {
-        throw new Error("No chatGPT response generated");
+
+    const questionId = +message
+    if (questionId === null || isNaN(questionId)) {
+        throw new chatGPTError(500, "No chatGPT response generated");
     }
 
     return prisma.question.findFirst({
         where: {
-            question_id: +message,
+            question_id: questionId,
         },
     });
 };

@@ -1,4 +1,5 @@
 import { generateQuestions } from "~/server/services/reflection";
+import {chatGPTError} from "~/server/error/chatGPTError";
 
 /**
  * Post endpoint to get a question based on the user's response.
@@ -13,7 +14,12 @@ export default defineEventHandler(async (event) => {
         const { userResponse, questionsAsked } = await readBody(event);
         return await generateQuestions(userResponse, new Set(questionsAsked));
     } catch (err) {
-        console.error(err);
-        setResponseStatus(event, 400);
+        console.error(err)
+        if (err instanceof chatGPTError) {
+            setResponseStatus(event, err.status)
+            return
+        }
+        setResponseStatus(event, 400)
+
     }
 });
