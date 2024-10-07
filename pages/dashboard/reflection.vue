@@ -285,7 +285,13 @@ const sendMessage = async () => {
 };
 
 const getOneMoreQuestion = async () => {
-    await fetchNewQuestion(lastUserResponse.value);
+    try {
+
+        await fetchNewQuestion(lastUserResponse.value);
+    } catch (err) {
+        console.error(err)
+        setIsReflection(false)
+    }
     await nextTick();
     scrollToBottom();
 };
