@@ -20,17 +20,18 @@ export const generateQuestions = async (userResponse: string, questionsAsked: Se
         .map((q) => `${q.question_id}: ${q.description}\n`)
         .toString();
     const prompt = `Based on the user's response, select the most appropriate question to respond with from these list 
-    of questions. Only state the question number. Question should be based on the skill ${skillFocus}. If no appropriate question,
-    send "no". \n\n ${questionsString}. `;
-    console.log(prompt)
+    of questions. Only state the question number. Question should be based on the skill ${skillFocus}. \n\n ${questionsString}. `;
     const { message } = await queryChatGPT({
         systemQuery: prompt,
         userQuery: userResponse,
     });
 
+    console.log(`Message: ${message}`)
     const questionId: number | null = message ? +message : NaN
+
+
     if (questionId === null || isNaN(questionId)) {
-        throw new chatGPTError(500, "No chatGPT response generated");
+        throw new chatGPTError(500, "Inappropriate chatGPT response generated");
     }
 
     return prisma.question.findFirst({

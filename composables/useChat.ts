@@ -1,6 +1,7 @@
 import type { Chat } from "~/types/Chat";
 import getRecommendationArr from "~/utils/reflection/getRecommendationArr";
 import {useSkill} from "~/composables/useSkill";
+import {ca} from "cronstrue/dist/i18n/locales/ca";
 
 const GREETING_QUESTION = { question: "What did you do today?", id: -1 };
 const RECOMMENDATION_QUESTION = {
@@ -49,15 +50,22 @@ export const useChat = () => {
     // Create a new question response and add to the questionResponses array
     const fetchNewQuestion = async (prevResponse: string) => {
         const questionsAsked = chat?.value.questionResponses.map(c => c.id)
+        let response;
+        try {
 
-        const response = await $fetch("/api/ai/question", {
-            method: "POST",
-            body: {
-                userResponse: prevResponse,
-                questionsAsked: questionsAsked,
-                skillFocus: skill
-            },
-        });
+            response = await $fetch("/api/ai/question", {
+                method: "POST",
+                body: {
+                    userResponse: prevResponse,
+                    questionsAsked: questionsAsked,
+                    skillFocus: skill
+                },
+            });
+        } catch (err) {
+            // todo: Add error handling for when a question isn't generated properly
+            console.error(err)
+            return;
+        }
 
         console.log(response);
 
