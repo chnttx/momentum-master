@@ -128,4 +128,36 @@
 
 #goals {
     height: 35%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+#dashboard-goal-title {
+    align-self: center;
+}
+
+#goals-table {
+    flex-grow: 1;
+    border-spacing: 10px;
+    width: 100%;
+}
+
+#dashboard-goal-description {
+    width: 45%;
+}
+
+#dashboard-goal-status {
+    text-align: center;
+    width: 25%;
+}
+
+.td-goal-description {
+    max-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

@@ -39,7 +39,7 @@ export default defineNuxtConfig({
     },
     security: {
         headers: {
-            contentSecurityPolicy: { "img-src": "*" },
+            contentSecurityPolicy: { "img-src": ["*", "data:"] },
             crossOriginResourcePolicy: "cross-origin",
         },
         corsHandler: {
