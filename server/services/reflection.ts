@@ -9,7 +9,7 @@ import {chatGPTError} from "~/server/error/chatGPTError";
  * Queries the chatGPT LLM for a STAR question based on user's initial response to "How was your day?"
  * Takes in userResponse: string as input and outputs a string, the question
  */
-export const generateQuestions = async (userResponse: string, questionsAsked: Set<number>) => {
+export const generateQuestions = async (userResponse: string, questionsAsked: Set<number>, skillFocus: string) => {
     let questions: { question_id: number; description: string }[] =
         await getAllQuestions();
     questions = questions.filter(
@@ -20,14 +20,15 @@ export const generateQuestions = async (userResponse: string, questionsAsked: Se
         .map((q) => `${q.question_id}: ${q.description}\n`)
         .toString();
     const prompt = `Based on the user's response, select the most appropriate question to respond with from these list 
-    of questions. Only state the question number. \n\n ${questionsString}. `;
-
+    of questions. Only state the question number. Question should be based on the skill ${skillFocus}. If no appropriate question,
+    send "no". \n\n ${questionsString}. `;
+    console.log(prompt)
     const { message } = await queryChatGPT({
         systemQuery: prompt,
         userQuery: userResponse,
     });
 
-    const questionId = +message
+    const questionId: number | null = message ? +message : NaN
     if (questionId === null || isNaN(questionId)) {
         throw new chatGPTError(500, "No chatGPT response generated");
     }

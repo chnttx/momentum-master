@@ -1,5 +1,6 @@
 import type { Chat } from "~/types/Chat";
 import getRecommendationArr from "~/utils/reflection/getRecommendationArr";
+import {useSkill} from "~/composables/useSkill";
 
 const GREETING_QUESTION = { question: "What did you do today?", id: -1 };
 const RECOMMENDATION_QUESTION = {
@@ -8,6 +9,8 @@ const RECOMMENDATION_QUESTION = {
 };
 
 export const useChat = () => {
+    const { skill } = useSkill()
+
     const chat = useState<Chat>("chat", () => {
         const today = new Date();
         return {
@@ -51,7 +54,8 @@ export const useChat = () => {
             method: "POST",
             body: {
                 userResponse: prevResponse,
-                questionsAsked: questionsAsked
+                questionsAsked: questionsAsked,
+                skillFocus: skill
             },
         });
 

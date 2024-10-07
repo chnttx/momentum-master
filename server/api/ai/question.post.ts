@@ -11,8 +11,8 @@ import {chatGPTError} from "~/server/error/chatGPTError";
  */
 export default defineEventHandler(async (event) => {
     try {
-        const { userResponse, questionsAsked } = await readBody(event);
-        return await generateQuestions(userResponse, new Set(questionsAsked));
+        const { userResponse, questionsAsked, skillFocus } = await readBody(event);
+        return await generateQuestions(userResponse, new Set(questionsAsked), skillFocus);
     } catch (err) {
         console.error(err)
         if (err instanceof chatGPTError) {
