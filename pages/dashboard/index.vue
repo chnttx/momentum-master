@@ -21,7 +21,21 @@
                 <div
                     id="skill-bar-chart"
                     class="dashboard-box dashboard-left-box"
-                ></div>
+                >
+                    <div>Skills</div>
+                    <div
+                        v-for="(skill, index) in skills_used"
+                        class="skill-proficiency"
+                    >
+                        <div class="skill-name">{{ skill.name }}</div>
+                        <div
+                            class="proficiency"
+                            :class="
+                                skillProficiencyClasses[skill.rating_id - 1]
+                            "
+                        ></div>
+                    </div>
+                </div>
                 <div id="goals" class="dashboard-box dashboard-left-box"></div>
             </div>
             <div id="dashboard-right" class="dashboard-content">
@@ -43,6 +57,10 @@
 const layout = "board";
 const { data: quote } = await useFetch("/api/quote");
 const { data: skills_used } = await useFetch("/api/skills_used/user");
+const skillProficiencyClasses = ["shu", "ha", "ri"];
+if (skills_used.value.length > 3)
+    skills_used.value = skills_used.value.slice(0, 3);
+console.log(skills_used);
 </script>
 
 <style scoped lang="scss">
