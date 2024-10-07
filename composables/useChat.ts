@@ -51,21 +51,16 @@ export const useChat = () => {
     const fetchNewQuestion = async (prevResponse: string) => {
         const questionsAsked = chat?.value.questionResponses.map(c => c.id)
         let response;
-        try {
 
-            response = await $fetch("/api/ai/question", {
-                method: "POST",
-                body: {
-                    userResponse: prevResponse,
-                    questionsAsked: questionsAsked,
-                    skillFocus: skill
-                },
-            });
-        } catch (err) {
-            // todo: Add error handling for when a question isn't generated properly
-            console.error(err)
-            return;
-        }
+        response = await $fetch("/api/ai/question", {
+            method: "POST",
+            body: {
+                userResponse: prevResponse,
+                questionsAsked: questionsAsked,
+                skillFocus: skill
+            },
+        });
+
 
         console.log(response);
 
