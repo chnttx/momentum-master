@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-const { goal, GoalStatus } = useGoal();
+const { goal, GoalStatus, setGoal } = useGoal();
 
 const description = ref<string>(goal.value.description);
 const statusId = ref<number>(goal.value.statusId);
@@ -64,6 +64,11 @@ const updateGoal = () => {
             goalId: goal.value.goalId,
             statusId: statusId.value,
         });
+    }
+
+    if (!isUpdated) {
+        setGoal(null);
+        emit("close");
     }
 };
 </script>
