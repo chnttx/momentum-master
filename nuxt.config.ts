@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     runtimeConfig: {
         public: {
             BASE_URL:
-                process.env.BASE_URL || `https://${process.env.VERCEL_URL}`,
+                process.env.BASE_URL || `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
             AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
             AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
         },
@@ -19,7 +19,7 @@ export default defineNuxtConfig({
         originEnvKey: "AUTH_ORIGIN",
         baseURL:
             process.env.BASE_URL ||
-            `https://${process.env.VERCEL_URL}/api/auth`,
+            `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/api/auth`,
         provider: {
             type: "authjs",
             trustHost: false,
