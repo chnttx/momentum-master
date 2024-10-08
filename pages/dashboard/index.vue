@@ -7,14 +7,12 @@
                     id="skill-focused"
                     class="dashboard-box dashboard-left-box"
                 >
-                    <div id="focus-text" v-if="skillsUsed.length > 0">
-                        Focus
-                    </div>
+                    <div id="focus-text"><b>Focus</b></div>
                     <div id="focus-description" v-if="skillsUsed.length > 0">
                         You have been focusing on
                         <b>{{ skillsUsed[0].name }}</b>
                     </div>
-                    <div v-else>
+                    <div v-else id="no-focus">
                         No focus yet, let's start with a reflection
                     </div>
                 </div>
@@ -22,7 +20,7 @@
                     id="skill-bar-chart"
                     class="dashboard-box dashboard-left-box"
                 >
-                    <div>Skills</div>
+                    <div><b>Skills</b></div>
                     <div
                         v-for="(skill, index) in filteredSkills"
                         class="skill-proficiency"
@@ -35,7 +33,7 @@
                     </div>
                 </div>
                 <div id="goals" class="dashboard-box dashboard-left-box">
-                    <div id="dashboard-goal-title">Goals</div>
+                    <div id="dashboard-goal-title"><b>Goals</b></div>
                     <table id="goals-table">
                         <thead>
                             <tr>
