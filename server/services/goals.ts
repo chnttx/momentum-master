@@ -1,4 +1,5 @@
 import prisma from "~/lib/prisma";
+import {NOT_STARTED} from "~/server/util/Constants";
 
 /**
  *
@@ -35,3 +36,15 @@ export const deleteGoalsById = async (id: number) => {
         },
     });
 };
+
+export const createNewGoal = (userId: number, description: string) => {
+
+    return prisma.goal.create({
+        data: {
+            user_id: userId,
+            description: description,
+            id_goal_status: NOT_STARTED
+        }
+    })
+
+}
