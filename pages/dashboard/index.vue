@@ -25,7 +25,9 @@
                         v-for="(skill, index) in filteredSkills"
                         class="skill-proficiency"
                     >
-                        <div class="skill-name">{{ skill.name }}</div>
+                        <div class="skill-name">
+                            {{ titleCase(skill.name) }}
+                        </div>
                         <div
                             class="proficiency"
                             :class="skillProficiencyClasses[skill.ratingId - 1]"
