@@ -1,7 +1,6 @@
 import type { Chat } from "~/types/Chat";
 import getRecommendationArr from "~/utils/reflection/getRecommendationArr";
-import {useSkill} from "~/composables/useSkill";
-import {ca} from "cronstrue/dist/i18n/locales/ca";
+import { useSkill } from "~/composables/useSkill";
 
 const GREETING_QUESTION = { question: "What did you do today?", id: -1 };
 const RECOMMENDATION_QUESTION = {
@@ -10,7 +9,7 @@ const RECOMMENDATION_QUESTION = {
 };
 
 export const useChat = () => {
-    const { skill } = useSkill()
+    const { skill } = useSkill();
 
     const chat = useState<Chat>("chat", () => {
         const today = new Date();
@@ -49,7 +48,7 @@ export const useChat = () => {
 
     // Create a new question response and add to the questionResponses array
     const fetchNewQuestion = async (prevResponse: string) => {
-        const questionsAsked = chat?.value.questionResponses.map(c => c.id)
+        const questionsAsked = chat?.value.questionResponses.map((c) => c.id);
         let response;
 
         response = await $fetch("/api/ai/question", {
@@ -57,10 +56,9 @@ export const useChat = () => {
             body: {
                 userResponse: prevResponse,
                 questionsAsked: questionsAsked,
-                skillFocus: skill
+                skillFocus: skill,
             },
         });
-
 
         console.log(response);
 

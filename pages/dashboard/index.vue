@@ -66,7 +66,14 @@
                         </thead>
                         <tbody>
                             <tr v-for="(goal, index) in goalStatuses.goals">
-                                <td class="td-goal-description">
+                                <td
+                                    class="td-goal-description"
+                                    @click="
+                                        () => {
+                                            openUpdateGoal({ ...goal });
+                                        }
+                                    "
+                                >
                                     {{ goal.description }}
                                 </td>
                                 <td class="goal-radio">
@@ -104,9 +111,6 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div v-else class="no-reflection">
-                        No goals, let's create one!
-                    </div>
                     <div
                         v-if="goalStatuses.goals.length < 3"
                         @click="openCreateGoal"
@@ -140,7 +144,7 @@
                     v-if="modal.show.value"
                     @close="modal.hideModal"
                     @create="createNewGoal"
-                    @update=""
+                    @update="updateGoal"
                 />
             </Transition>
         </Teleport>
@@ -148,10 +152,10 @@
 </template>
 
 <script setup lang="ts">
-import { ModalCreateGoal } from "#components";
+import { ModalCreateGoal, ModalUpdateGoal } from "#components";
 
 const modal = useGoalModal();
-const GOAL_COMPLETED_STATUS_ID = 3;
+const { setGoal, GoalStatus } = useGoal();
 const skillProficiencyClasses = ["shu", "ha", "ri"];
 const layout = "board";
 const dateHighlight = {
@@ -174,7 +178,7 @@ reflections.value.forEach((reflection) => {
 });
 
 const filteredGoals = goals.value.filter(
-    (goal) => goal.id_goal_status != GOAL_COMPLETED_STATUS_ID
+    (goal) => goal.id_goal_status != GoalStatus.COMPLETE
 );
 
 const filteredSkills = [];
@@ -201,11 +205,34 @@ const openCreateGoal = () => {
     modal.showModal();
 };
 
+const openUpdateGoal = (goal: Goal) => {
+    modal.component.value = markRaw(ModalUpdateGoal);
+    console.log(goal);
+    setGoal(goal);
+    modal.showModal();
+};
+
 function createNewGoal(description) {
+    let goalId = -1;
     console.log(description);
     // Goal POST API
     modal.hideModal();
-    goalStatuses.goals.push({ description, goalId: -1, statusId: 1 });
+    goalStatuses.goals.push({
+        description,
+        goalId,
+        statusId: GoalStatus.NOT_STARTED,
+    });
+}
+
+function updateGoal(goal: Goal) {
+    console.log(goal);
+    // Goal PUT API
+    modal.hideModal();
+    goalStatuses.goals = goalStatuses.goals.filter(
+        (oldGoal) => oldGoal.goalId !== goal.goalId
+    );
+
+    if (goal.statusId !== GoalStatus.COMPLETE) goalStatuses.goals.push(goal);
 }
 </script>
 
