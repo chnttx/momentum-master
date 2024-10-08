@@ -7,12 +7,12 @@
                     id="skill-focused"
                     class="dashboard-box dashboard-left-box"
                 >
-                    <div id="focus-text" v-if="skills_used.length > 0">
+                    <div id="focus-text" v-if="skillsUsed.length > 0">
                         Focus
                     </div>
-                    <div id="focus-description" v-if="skills_used.length > 0">
+                    <div id="focus-description" v-if="skillsUsed.length > 0">
                         You have been focusing on
-                        <b>{{ skills_used[0].name }}</b>
+                        <b>{{ skillsUsed[0].name }}</b>
                     </div>
                     <div v-else>
                         No focus yet, let's start with a reflection
@@ -24,15 +24,13 @@
                 >
                     <div>Skills</div>
                     <div
-                        v-for="(skill, index) in skills_used"
+                        v-for="(skill, index) in filteredSkills"
                         class="skill-proficiency"
                     >
                         <div class="skill-name">{{ skill.name }}</div>
                         <div
                             class="proficiency"
-                            :class="
-                                skillProficiencyClasses[skill.rating_id - 1]
-                            "
+                            :class="skillProficiencyClasses[skill.ratingId - 1]"
                         ></div>
                     </div>
                 </div>
@@ -117,7 +115,7 @@ const dateHighlight = {
     fillMode: "solid",
 };
 const { data: quote } = await useFetch("/api/quote");
-const { data: skills_used } = await useFetch("/api/skills_used/user");
+const { data: skillsUsed } = await useFetch("/api/skills_used/user");
 const { data: goals } = await useFetch("/api/goals/user");
 const { data: reflections } = await useFetch("/api/reflections/user");
 
@@ -135,6 +133,16 @@ const filteredGoals = goals.value.filter(
     (goal) => goal.id_goal_status != GOAL_COMPLETED_STATUS_ID
 );
 
+const filteredSkills = [];
+for (let skill of skillsUsed.value) {
+    let isNewSkill = filteredSkills.every((s) => s?.name !== skill.name);
+    if (isNewSkill) {
+        filteredSkills.push({ name: skill.name, ratingId: skill.rating_id });
+    }
+
+    if (filteredSkills.length > 2) break;
+}
+
 const goalStatuses = reactive({ goals: [] });
 for (let goal of filteredGoals) {
     goalStatuses.goals.push({
@@ -143,8 +151,8 @@ for (let goal of filteredGoals) {
     });
 }
 
-if (skills_used.value.length > 3)
-    skills_used.value = skills_used.value.slice(0, 3);
+if (skillsUsed.value.length > 3)
+    skillsUsed.value = skillsUsed.value.slice(0, 3);
 
 console.log(reflections);
 </script>
