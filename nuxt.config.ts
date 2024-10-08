@@ -3,7 +3,7 @@
 export default defineNuxtConfig({
     compatibilityDate: "2024-04-03",
     devtools: { enabled: true },
-    modules: ["@nuxt/test-utils/module", "@sidebase/nuxt-auth", "@nuxt/ui"],
+    modules: ["@nuxt/test-utils/module", "@sidebase/nuxt-auth", "@nuxt/ui", "nuxt-security", "@samk-dev/nuxt-vcalendar"],
     runtimeConfig: {
         public: {
             BASE_URL:
@@ -30,6 +30,15 @@ export default defineNuxtConfig({
             /* Refresh the session cookie every hour */
             enablePeriodically: 3600000,
             enableOnWindowFocus: true,
+        },
+    },
+    security: {
+        headers: {
+            contentSecurityPolicy: { "img-src": ["*", "data:"] },
+            crossOriginResourcePolicy: "cross-origin",
+        },
+        corsHandler: {
+            origin: ["https://zenquotes.io/", "https://www.google.com/"],
         },
     },
     css: ["~/assets/css/reset.css"],

@@ -14,8 +14,10 @@
         "@auth0/auth0-vue": "^2.3.3",
         "@nuxt/ui": "^2.18.4",
         "@prisma/client": "^5.19.1",
+        "@samk-dev/nuxt-vcalendar": "^1.0.4",
         "@vercel/postgres": "^0.9.0",
         "nuxt": "^3.13.0",
+        "nuxt-security": "^2.0.0",
         "openai": "^4.58.1",
         "vue": "latest"
     },

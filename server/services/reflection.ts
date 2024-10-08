@@ -3,35 +3,40 @@ import prisma from "~/lib/prisma";
 import { storeUserSkillRating } from "~/server/services/skill-used";
 import { addQuestionAndResponses } from "~/server/services/questionResponses";
 import { QuestionAnswersInterface } from "~/server/interface/QuestionAnswersInterface";
+import {chatGPTError} from "~/server/error/chatGPTError";
 
 /**
  * Queries the chatGPT LLM for a STAR question based on user's initial response to "How was your day?"
  * Takes in userResponse: string as input and outputs a string, the question
  */
-export const generateQuestions = async (userResponse: string) => {
+export const generateQuestions = async (userResponse: string, questionsAsked: Set<number>, skillFocus: string) => {
     let questions: { question_id: number; description: string }[] =
         await getAllQuestions();
     questions = questions.filter(
-        (q) => q.question_id !== -1 && q.question_id !== -2
+        (q) => q.question_id !== -1 && q.question_id !== -2 && !questionsAsked.has(q.question_id)
     );
+
     const questionsString: string = questions
         .map((q) => `${q.question_id}: ${q.description}\n`)
         .toString();
     const prompt = `Based on the user's response, select the most appropriate question to respond with from these list 
-    of questions. Only state the question number. \n\n ${questionsString}. `;
-
+    of questions. Only state the question number. Question should be based on the skill ${skillFocus}. \n\n ${questionsString}. `;
     const { message } = await queryChatGPT({
         systemQuery: prompt,
         userQuery: userResponse,
     });
 
-    if (!message) {
-        throw new Error("No chatGPT response generated");
+    console.log(`Message: ${message}`)
+    const questionId: number | null = message ? +message : NaN
+
+
+    if (questionId === null || isNaN(questionId)) {
+        throw new chatGPTError(500, "Inappropriate chatGPT response generated");
     }
 
     return prisma.question.findFirst({
         where: {
-            question_id: +message,
+            question_id: questionId,
         },
     });
 };

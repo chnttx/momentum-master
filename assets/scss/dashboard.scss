@@ -1,0 +1,164 @@
+@import "~/assets/scss/_colors.scss";
+@import "~/assets/scss/_fonts.scss";
+
+#dashboard-container {
+    font-family: $font-family;
+    background-color: #f8f8f8;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: space-around;
+}
+
+#dashboard-left {
+    width: 55%;
+    padding: 1.5rem 0;
+}
+
+#dashboard-right {
+    width: 35%;
+    gap: 2rem;
+    padding: 1.5rem 0;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-left-box {
+    width: 100%;
+}
+
+.dashboard-right-box {
+    width: 100%;
+}
+
+#calendar {
+    height: fit-content;
+}
+
+#quote {
+    flex-grow: 1;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+    font-weight: $bold-font-weight;
+}
+
+#breakline {
+    width: 100%;
+    height: 1px;
+    background-color: $primary;
+}
+
+.dashboard-box {
+    background-color: white;
+    border-radius: 10px;
+    filter: drop-shadow(2px 4px 5px #a3a3a3);
+    width: 100%;
+}
+
+#skill-focused {
+    height: 20%;
+    position: relative;
+}
+
+#focus-text {
+    position: absolute;
+    top: 1rem;
+    width: 100%;
+    text-align: center;
+}
+
+#focus-description {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 50%;
+    transform: translate(0%, -50%);
+}
+
+#skill-bar-chart {
+    height: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+}
+
+.skill-proficiency {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.skill-name {
+    width: 30%;
+}
+
+.proficiency {
+    background-color: #a3a3a3;
+    max-height: 50%;
+    min-height: 50%;
+    border-radius: 10px;
+}
+
+.shu {
+    width: 25%;
+    background-color: #ff5951;
+}
+
+.ha {
+    width: 45%;
+    background-color: #ffca3a;
+}
+
+.ri {
+    width: 65%;
+    background-color: #8ac926;
+}
+
+#goals {
+    height: 35%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+#dashboard-goal-title {
+    align-self: center;
+}
+
+#goals-table {
+    flex-grow: 1;
+    border-spacing: 10px;
+    width: 100%;
+}
+
+#dashboard-goal-description {
+    width: 45%;
+}
+
+#dashboard-goal-status {
+    text-align: center;
+    width: 25%;
+}
+
+.td-goal-description {
+    max-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
