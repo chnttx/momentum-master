@@ -12,16 +12,19 @@
                         You have been focusing on
                         <b>{{ skillsUsed[0].name }}</b>
                     </div>
-                    <div v-else id="no-focus">
-                        No focus yet, let's start with a reflection
+                    <div v-else class="no-reflection">
+                        No focus yet, let's start with a reflection!
                     </div>
                 </div>
                 <div
                     id="skill-bar-chart"
                     class="dashboard-box dashboard-left-box"
                 >
-                    <div><b>Skills</b></div>
+                    <div v-if="filteredSkills.length > 0">
+                        <b>Skills</b>
+                    </div>
                     <div
+                        v-if="filteredSkills.length > 0"
                         v-for="(skill, index) in filteredSkills"
                         class="skill-proficiency"
                     >
@@ -32,6 +35,9 @@
                             class="proficiency"
                             :class="skillProficiencyClasses[skill.ratingId - 1]"
                         ></div>
+                    </div>
+                    <div v-else class="no-reflection">
+                        No skill used yet, let's start with a reflection!
                     </div>
                 </div>
                 <div id="goals" class="dashboard-box dashboard-left-box">
