@@ -219,7 +219,7 @@ function createNewGoal(description) {
     modal.hideModal();
     goalStatuses.goals.push({
         description,
-        goalId
+        goalId,
         statusId: GoalStatus.NOT_STARTED,
     });
 }
