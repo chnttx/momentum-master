@@ -18,18 +18,8 @@
                 </NuxtLink>
             </li>
             <li>
-                <NuxtLink to="/dashboard/skills">
-                    <i class="fas fa-cogs"></i> <span>Skills</span>
-                </NuxtLink>
-            </li>
-            <li>
                 <NuxtLink to="/dashboard/journal">
                     <i class="fas fa-book"></i> <span>Journal</span>
-                </NuxtLink>
-            </li>
-            <li>
-                <NuxtLink to="/dashboard/security">
-                    <i class="fas fa-lock"></i> <span>Security</span>
                 </NuxtLink>
             </li>
             <li>
