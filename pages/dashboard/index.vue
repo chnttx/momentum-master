@@ -41,8 +41,13 @@
                     </div>
                 </div>
                 <div id="goals" class="dashboard-box dashboard-left-box">
-                    <div id="dashboard-goal-title"><b>Goals</b></div>
-                    <table id="goals-table">
+                    <div
+                        v-if="filteredGoals.length > 0"
+                        id="dashboard-goal-title"
+                    >
+                        <b>Goals</b>
+                    </div>
+                    <table id="goals-table" v-if="filteredGoals.length > 0">
                         <thead>
                             <tr>
                                 <th id="dashboard-goal-description">
@@ -96,6 +101,9 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div v-else class="no-reflection">
+                        No goals, let's create one!
+                    </div>
                 </div>
             </div>
             <div id="dashboard-right" class="dashboard-content">
