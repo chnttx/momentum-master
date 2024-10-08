@@ -42,12 +42,15 @@
                 </div>
                 <div id="goals" class="dashboard-box dashboard-left-box">
                     <div
-                        v-if="filteredGoals.length > 0"
+                        v-if="goalStatuses.goals.length > 0"
                         id="dashboard-goal-title"
                     >
                         <b>Goals</b>
                     </div>
-                    <table id="goals-table" v-if="filteredGoals.length > 0">
+                    <table
+                        id="goals-table"
+                        v-if="goalStatuses.goals.length > 0"
+                    >
                         <thead>
                             <tr>
                                 <th id="dashboard-goal-description">
@@ -62,7 +65,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(goal, index) in filteredGoals">
+                            <tr v-for="(goal, index) in goalStatuses.goals">
                                 <td class="td-goal-description">
                                     {{ goal.description }}
                                 </td>
@@ -104,6 +107,19 @@
                     <div v-else class="no-reflection">
                         No goals, let's create one!
                     </div>
+                    <div
+                        v-if="goalStatuses.goals.length < 3"
+                        @click="openCreateGoal"
+                    >
+                        <UButton
+                            icon="i-heroicons-plus"
+                            size="sm"
+                            color="primary"
+                            square
+                            variant="solid"
+                            label="Add a new goal"
+                        />
+                    </div>
                 </div>
             </div>
             <div id="dashboard-right" class="dashboard-content">
@@ -117,10 +133,24 @@
                 </div>
             </div>
         </div>
+        <Teleport to="#teleports">
+            <Transition>
+                <component
+                    :is="modal.component.value"
+                    v-if="modal.show.value"
+                    @close="modal.hideModal"
+                    @create="createNewGoal"
+                    @update=""
+                />
+            </Transition>
+        </Teleport>
     </NuxtLayout>
 </template>
 
 <script setup lang="ts">
+import { ModalCreateGoal } from "#components";
+
+const modal = useGoalModal();
 const GOAL_COMPLETED_STATUS_ID = 3;
 const skillProficiencyClasses = ["shu", "ha", "ri"];
 const layout = "board";
@@ -160,15 +190,23 @@ for (let skill of skillsUsed.value) {
 const goalStatuses = reactive({ goals: [] });
 for (let goal of filteredGoals) {
     goalStatuses.goals.push({
+        description: goal.description,
         goalId: goal.id_goal,
         statusId: goal.id_goal_status,
     });
 }
 
-if (skillsUsed.value.length > 3)
-    skillsUsed.value = skillsUsed.value.slice(0, 3);
+const openCreateGoal = () => {
+    modal.component.value = markRaw(ModalCreateGoal);
+    modal.showModal();
+};
 
-console.log(reflections);
+function createNewGoal(description) {
+    console.log(description);
+    // Goal POST API
+    modal.hideModal();
+    goalStatuses.goals.push({ description, goalId: -1, statusId: 1 });
+}
 </script>
 
 <style scoped lang="scss">
