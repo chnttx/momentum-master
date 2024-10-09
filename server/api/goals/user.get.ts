@@ -1,6 +1,9 @@
 import { getGoalsByUser } from "~/server/services/goals";
 import { extractUserFromSession } from "~/server/services/session";
 
+/**
+ * API endpoint to get all goals by a user
+ */
 export default defineEventHandler(async (event) => {
     const user = await extractUserFromSession(event);
     if (!user) {

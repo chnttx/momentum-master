@@ -42,12 +42,15 @@
                 </div>
                 <div id="goals" class="dashboard-box dashboard-left-box">
                     <div
-                        v-if="filteredGoals.length > 0"
+                        v-if="goalStatuses.goals.length > 0"
                         id="dashboard-goal-title"
                     >
                         <b>Goals</b>
                     </div>
-                    <table id="goals-table" v-if="filteredGoals.length > 0">
+                    <table
+                        id="goals-table"
+                        v-if="goalStatuses.goals.length > 0"
+                    >
                         <thead>
                             <tr>
                                 <th id="dashboard-goal-description">
@@ -62,8 +65,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(goal, index) in filteredGoals">
-                                <td class="td-goal-description">
+                            <tr v-for="(goal, index) in goalStatuses.goals">
+                                <td
+                                    class="td-goal-description"
+                                    @click="
+                                        () => {
+                                            openUpdateGoal({ ...goal });
+                                        }
+                                    "
+                                >
                                     {{ goal.description }}
                                 </td>
                                 <td class="goal-radio">
@@ -101,8 +111,18 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div v-else class="no-reflection">
-                        No goals, let's create one!
+                    <div
+                        v-if="goalStatuses.goals.length < 3"
+                        @click="openCreateGoal"
+                    >
+                        <UButton
+                            icon="i-heroicons-plus"
+                            size="sm"
+                            color="primary"
+                            square
+                            variant="solid"
+                            label="Add a new goal"
+                        />
                     </div>
                 </div>
             </div>
@@ -117,11 +137,25 @@
                 </div>
             </div>
         </div>
+        <Teleport to="#teleports">
+            <Transition>
+                <component
+                    :is="modal.component.value"
+                    v-if="modal.show.value"
+                    @close="modal.hideModal"
+                    @create="async (description) => createNewGoal(description)"
+                    @update="async (goal) => updateGoal(goal)"
+                />
+            </Transition>
+        </Teleport>
     </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-const GOAL_COMPLETED_STATUS_ID = 3;
+import { ModalCreateGoal, ModalUpdateGoal } from "#components";
+
+const modal = useGoalModal();
+const { setGoal, GoalStatus } = useGoal();
 const skillProficiencyClasses = ["shu", "ha", "ri"];
 const layout = "board";
 const dateHighlight = {
@@ -144,7 +178,7 @@ reflections.value.forEach((reflection) => {
 });
 
 const filteredGoals = goals.value.filter(
-    (goal) => goal.id_goal_status != GOAL_COMPLETED_STATUS_ID
+    (goal) => goal.id_goal_status != GoalStatus.COMPLETE
 );
 
 const filteredSkills = [];
@@ -160,15 +194,50 @@ for (let skill of skillsUsed.value) {
 const goalStatuses = reactive({ goals: [] });
 for (let goal of filteredGoals) {
     goalStatuses.goals.push({
+        description: goal.description,
         goalId: goal.id_goal,
         statusId: goal.id_goal_status,
     });
 }
 
-if (skillsUsed.value.length > 3)
-    skillsUsed.value = skillsUsed.value.slice(0, 3);
+const openCreateGoal = () => {
+    modal.component.value = markRaw(ModalCreateGoal);
+    modal.showModal();
+};
 
-console.log(reflections);
+const openUpdateGoal = (goal: Goal) => {
+    modal.component.value = markRaw(ModalUpdateGoal);
+    setGoal(goal);
+    modal.showModal();
+};
+
+async function createNewGoal(description) {
+    const newGoal = await $fetch("/api/goals", {
+        method: "POST",
+        body: { description },
+    });
+    let goalId = newGoal.id_goal ?? -1;
+    modal.hideModal();
+    goalStatuses.goals.push({
+        description,
+        goalId,
+        statusId: GoalStatus.NOT_STARTED,
+    });
+}
+
+async function updateGoal(goal: Goal) {
+    console.log(goal);
+    const newGoal = await $fetch("/api/goals", {
+        method: "PUT",
+        body: { ...goal },
+    });
+    modal.hideModal();
+    goalStatuses.goals = goalStatuses.goals.filter(
+        (oldGoal) => oldGoal.goalId !== goal.goalId
+    );
+
+    if (goal.statusId !== GoalStatus.COMPLETE) goalStatuses.goals.push(goal);
+}
 </script>
 
 <style scoped lang="scss">
