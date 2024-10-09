@@ -227,7 +227,10 @@ async function createNewGoal(description) {
 
 async function updateGoal(goal: Goal) {
     console.log(goal);
-    // Goal PUT API
+    const newGoal = await $fetch("/api/goals", {
+        method: "PUT",
+        body: { ...goal },
+    });
     modal.hideModal();
     goalStatuses.goals = goalStatuses.goals.filter(
         (oldGoal) => oldGoal.goalId !== goal.goalId

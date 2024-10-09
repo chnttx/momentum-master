@@ -1,6 +1,6 @@
 import prisma from "~/lib/prisma";
-import {GoalStatus} from "~/server/util/GoalStatusEnum";
-import {Goal} from "@prisma/client";
+import { GoalStatus } from "~/server/util/GoalStatusEnum";
+import { Goal } from "@prisma/client";
 
 /**
  *
@@ -45,16 +45,14 @@ export const deleteGoalsById = async (id: number) => {
  * Creates a new goal and adds it to the database
  */
 export const createNewGoal = (userId: number, description: string) => {
-
     return prisma.goal.create({
         data: {
             user_id: userId,
             description: description,
-            id_goal_status: GoalStatus.NOT_STARTED
-        }
-    })
-
-}
+            id_goal_status: GoalStatus.NOT_STARTED,
+        },
+    });
+};
 
 /**
  *
@@ -63,15 +61,22 @@ export const createNewGoal = (userId: number, description: string) => {
  * @param description
  * Updates the goal within the database matching goalId with the new description and goal status
  */
-export const updateGoal = ({ goalId, goalStatus, description }: { goalId: number, goalStatus: GoalStatus, description: string }) => {
-
+export const updateGoal = ({
+    goalId,
+    statusId,
+    description,
+}: {
+    goalId: number;
+    statusId: GoalStatus;
+    description: string;
+}) => {
     return prisma.goal.update({
         where: {
-            id_goal: goalId
+            id_goal: goalId,
         },
         data: {
             description: description,
-            id_goal_status: goalStatus
-        }
-    })
-}
+            id_goal_status: statusId,
+        },
+    });
+};
