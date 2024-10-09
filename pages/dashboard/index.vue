@@ -143,8 +143,8 @@
                     :is="modal.component.value"
                     v-if="modal.show.value"
                     @close="modal.hideModal"
-                    @create="createNewGoal"
-                    @update="updateGoal"
+                    @create="async (description) => createNewGoal(description)"
+                    @update="async (goal) => updateGoal(goal)"
                 />
             </Transition>
         </Teleport>
@@ -207,15 +207,16 @@ const openCreateGoal = () => {
 
 const openUpdateGoal = (goal: Goal) => {
     modal.component.value = markRaw(ModalUpdateGoal);
-    console.log(goal);
     setGoal(goal);
     modal.showModal();
 };
 
-function createNewGoal(description) {
-    let goalId = -1;
-    console.log(description);
-    // Goal POST API
+async function createNewGoal(description) {
+    const newGoal = await $fetch("/api/goals", {
+        method: "POST",
+        body: { description },
+    });
+    let goalId = newGoal.id_goal ?? -1;
     modal.hideModal();
     goalStatuses.goals.push({
         description,
@@ -224,7 +225,7 @@ function createNewGoal(description) {
     });
 }
 
-function updateGoal(goal: Goal) {
+async function updateGoal(goal: Goal) {
     console.log(goal);
     // Goal PUT API
     modal.hideModal();
