@@ -17,7 +17,7 @@
 
 #dashboard-right {
     width: 35%;
-
+    gap: 2rem;
     padding: 1.5rem 0;
 }
 
@@ -37,10 +37,11 @@
 }
 
 #calendar {
-    height: 55%;
+    height: fit-content;
 }
 
 #quote {
+    flex-grow: 1;
     height: 30%;
     display: flex;
     flex-direction: column;
@@ -68,6 +69,15 @@
     position: relative;
 }
 
+.no-reflection {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+}
+
 #focus-text {
     position: absolute;
     top: 1rem;
@@ -85,8 +95,82 @@
 
 #skill-bar-chart {
     height: 35%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+}
+
+.skill-proficiency {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.skill-name {
+    width: 30%;
+}
+
+.proficiency {
+    background-color: #a3a3a3;
+    max-height: 50%;
+    min-height: 50%;
+    border-radius: 10px;
+}
+
+.shu {
+    width: 25%;
+    background-color: #ff5951;
+}
+
+.ha {
+    width: 45%;
+    background-color: #ffca3a;
+}
+
+.ri {
+    width: 65%;
+    background-color: #8ac926;
 }
 
 #goals {
     height: 35%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+#dashboard-goal-title {
+    align-self: center;
+}
+
+#goals-table {
+    flex-grow: 1;
+    border-spacing: 10px;
+    width: 100%;
+}
+
+#dashboard-goal-description {
+    width: 45%;
+}
+
+#dashboard-goal-status {
+    text-align: center;
+    width: 25%;
+}
+
+.td-goal-description {
+    max-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    &:hover {
+        cursor: pointer;
+    }
 }

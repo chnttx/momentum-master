@@ -3,16 +3,11 @@
 export default defineNuxtConfig({
     compatibilityDate: "2024-04-03",
     devtools: { enabled: true },
-    modules: [
-        "@nuxt/test-utils/module",
-        "@sidebase/nuxt-auth",
-        "@nuxt/ui",
-        "nuxt-security",
-    ],
+    modules: ["@nuxt/test-utils/module", "@sidebase/nuxt-auth", "@nuxt/ui", "nuxt-security", "@samk-dev/nuxt-vcalendar"],
     runtimeConfig: {
         public: {
             BASE_URL:
-                process.env.BASE_URL || `https://${process.env.VERCEL_URL}`,
+                process.env.BASE_URL || `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`,
             AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
             AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
         },
@@ -24,7 +19,7 @@ export default defineNuxtConfig({
         originEnvKey: "AUTH_ORIGIN",
         baseURL:
             process.env.BASE_URL ||
-            `https://${process.env.VERCEL_URL}/api/auth`,
+            `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}/api/auth`,
         provider: {
             type: "authjs",
             trustHost: false,
@@ -39,11 +34,11 @@ export default defineNuxtConfig({
     },
     security: {
         headers: {
-            contentSecurityPolicy: { "img-src": "*" },
+            contentSecurityPolicy: { "img-src": ["*", "data:"] },
             crossOriginResourcePolicy: "cross-origin",
         },
         corsHandler: {
-            origin: ["https://zenquotes.io"],
+            origin: ["https://zenquotes.io/", "https://www.google.com/"],
         },
     },
     css: ["~/assets/css/reset.css"],

@@ -167,7 +167,7 @@
                                 color="black"
                                 :ui="{ rounded: 'rounded-full' }"
                             >
-                                Would you like to learn a new skill
+                                Do you want some recommendations?
                             </UButton>
                         </div>
 
@@ -285,7 +285,12 @@ const sendMessage = async () => {
 };
 
 const getOneMoreQuestion = async () => {
-    await fetchNewQuestion(lastUserResponse.value);
+    try {
+        await fetchNewQuestion(lastUserResponse.value);
+    } catch (err) {
+        console.error(err);
+        setIsReflection(false);
+    }
     await nextTick();
     scrollToBottom();
 };
@@ -299,10 +304,12 @@ const scrollToBottom = () => {
 };
 
 const postReflection = async () => {
-    const questionsAndResponses = chat.value.questionResponses.map((item: any) => ({
-        questionId: item.id,
-        response: item.response as string,
-    }));
+    const questionsAndResponses = chat.value.questionResponses.map(
+        (item: any) => ({
+            questionId: item.id,
+            response: item.response as string,
+        })
+    );
     const skillId = skill.value ? skill.value.id : -1;
     const payload: Reflection = {
         date: chat.value.date,

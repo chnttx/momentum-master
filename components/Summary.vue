@@ -2,9 +2,6 @@
     <div class="summary-page-container">
         <div class="header">
             <h1>Date: {{ currentDate }}</h1>
-            <div class="title">
-                <h2>{{ id }}</h2>
-            </div>
         </div>
 
         <div class="summary-content">
