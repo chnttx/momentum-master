@@ -7,13 +7,7 @@
             <div class="logo">
                 <img src="~/assets/images/mmlogo.svg" class="mmlogo" />
             </div>
-            <nav class="navbar">
-                <ul class="nav-list">
-                    <li><NuxtLink>Features</NuxtLink></li>
-                    <li><NuxtLink>Platforms</NuxtLink></li>
-                    <li><NuxtLink>Guide</NuxtLink></li>
-                </ul>
-            </nav>
+            <nav class="navbar"></nav>
             <button>Get the App</button>
         </div>
         <hr />
@@ -40,11 +34,6 @@
                                     src="~/assets/images/login.svg"
                                     class="login-logo"
                                 />
-                            </button>
-                        </span>
-                        <span>
-                            <button href="" class="signup">
-                                <span style="font-size: 28px">Sign Up</span>
                             </button>
                         </span>
                     </div>
