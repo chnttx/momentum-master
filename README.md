@@ -3,7 +3,12 @@
   <h1>Momentum Master</h1>
 </div>
 
-Momentum Master is an online tool for enhancing professional development, built with **functionality and user experience** in mind. Get AI-powered reflections, track your goals, manage your skills all-in-one.
+## Main Functionalities
+Momentum Master is an online tool for enhancing professional development, built with **functionality and user experience** in mind. Main functionalities include:
+- Secure login/signup powered by Auth0
+- Daily reflections with AI chatbot, with summary made in the STAR format
+- Track progress with journal history with summaries and full chat log
+- Personalised dashboard with statistics in customised time steps and goal tracking
 
 ## Dependencies
 You will need the following to run the code:
@@ -11,7 +16,7 @@ You will need the following to run the code:
 - Vercel account (since our database is hosted on Vercel)
 - [Prisma](https://www.prisma.io/docs) (to run Prisma Studio for database)
 - Git (obviously lol)
-- OpenAI for LLM chatbot
+- OpenAI account for chatbot
 
 ## Getting Started
 1. Clone this repo to your device
