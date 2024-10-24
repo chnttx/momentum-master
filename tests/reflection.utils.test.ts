@@ -1,4 +1,10 @@
 // @vitest-environment happy-dom
+
+/**
+ * Imports necessary utilities and functions from Vitest and reflection utils.
+ * The Vitest environment is set to "happy-dom" for testing browser-like functionality
+ * within Node.js.
+ */
 import { afterEach, describe, expect, test, vi } from "vitest";
 import getRecommendationArr from "~/utils/reflection/getRecommendationArr";
 import getMoodRating from "~/utils/reflection/getMoodRating";
@@ -10,6 +16,10 @@ import getSkill from "~/utils/reflection/getSkill";
 import getSkillRating from "~/utils/reflection/getSkillRating";
 import resetReflectionLocalStorage from "~/utils/reflection/resetReflectionLocalStorage";
 
+/**
+ * Constants used as keys for storing and retrieving data from LocalStorage.
+ */
+
 const CHAT_KEY = "chat";
 const END_SESSION_KEY = "endSession";
 const IS_REFLECTION_KEY = "isReflection";
@@ -20,18 +30,27 @@ const SKILL_KEY = "skill";
 const RECOMMENDATION_ARR_KEY = "recommendationArr";
 
 describe("Reflection Utils", () => {
+
+    /**
+     * Create spies on LocalStorage methods to track their usage and clear them after each test.
+     */
     const getItemSpy = vi.spyOn(localStorage, "getItem");
     const setItemSpy = vi.spyOn(localStorage, "setItem");
     const removeItemSpy = vi.spyOn(localStorage, "removeItem");
 
     afterEach(() => {
+        // Clears LocalStorage and resets mock spies after each test.
         localStorage.clear();
         getItemSpy.mockClear();
         setItemSpy.mockClear();
     });
 
+    /**
+     * Tests for getChat, which retrieves chat logs from LocalStorage.
+     */
     describe("getChat", () => {
         test("gets chat from LocalStorage when it exists", () => {
+            // Simulates a chat log and verifies that it can be retrieved from LocalStorage.
             const today = new Date();
             const chat = {
                 date: today.toISOString(),
@@ -60,6 +79,7 @@ describe("Reflection Utils", () => {
         });
 
         test("gets chat from LocalStorage when it exists but date is not today", () => {
+            // Simulates a past chat log and verifies that it is removed if the date is old.
             const day = new Date("1995-12-17T03:24:00");
             const chat = {
                 date: day.toISOString(),
@@ -95,11 +115,15 @@ describe("Reflection Utils", () => {
         });
 
         test("gets chat from LocalStorage when it doesn't exist", () => {
+            // Verifies behavior when no chat data is found in LocalStorage.
             expect(getChat()).toBeNull();
             expect(getItemSpy).toHaveBeenCalledWith(CHAT_KEY);
         });
     });
 
+    /**
+     * Tests for getEndSession, which retrieves the end session status from LocalStorage.
+     */
     describe("getEndSession", () => {
         test("gets endSession from LocalStorage when it exists", () => {
             const endSession = false;
@@ -114,6 +138,9 @@ describe("Reflection Utils", () => {
         });
     });
 
+    /**
+     * Tests for getIsReflection, which retrieves isReflection status from LocalStorage
+     */
     describe("getIsReflection", () => {
         test("gets isReflection from LocalStorage when it exists", () => {
             const isReflection = false;
@@ -131,6 +158,9 @@ describe("Reflection Utils", () => {
         });
     });
 
+    /**
+     * Tests for learning new skill
+     */
     describe("getLearnNewSkill", () => {
         test("gets learnNewSkill from LocalStorage when it exists", () => {
             const learnNewSkill = false;
@@ -148,6 +178,9 @@ describe("Reflection Utils", () => {
         });
     });
 
+    /**
+     * Tests for getting mood rating at the start of reflection
+     */
     describe("getMoodRating", () => {
         test("gets moodRating from LocalStorage when it exists", () => {
             const moodRating = 1;
@@ -162,6 +195,9 @@ describe("Reflection Utils", () => {
         });
     });
 
+    /**
+     * Tests for getting skill rating at the start of reflection
+     */
     describe("getSkillRating", () => {
         test("gets skillRating from LocalStorage when it exists", () => {
             const skillRating = 7;
@@ -176,6 +212,9 @@ describe("Reflection Utils", () => {
         });
     });
 
+    /**
+     * Tests for retrieving a skill that user input into reflection box
+     */
     describe("getSkill", () => {
         test("gets skill from LocalStorage when it exists", () => {
             const skill = "This is a skill";
@@ -190,6 +229,9 @@ describe("Reflection Utils", () => {
         });
     });
 
+    /**
+     * Tests reset local storage after reflections been completed
+     */
     describe("resetReflectionLocalStorage", () => {
         test("reset reflection LocalStorage", () => {
             resetReflectionLocalStorage();
@@ -203,6 +245,9 @@ describe("Reflection Utils", () => {
         });
     });
 
+    /** 
+     * Tests external recommendations from ChatGPT at the end of reflection
+     */
     describe("getRecommendationArr", () => {
         test("gets recommendationArr from LocalStorage when it exists", () => {
             const recommendationArr = ["resource", "resource", "resource"];

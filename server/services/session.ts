@@ -4,6 +4,18 @@ import {getServerSession} from "#auth";
 import assert from "node:assert";
 import {getUserByUsername} from "~/server/services/user";
 
+/**
+ * Extracts the user from the session based on the event.
+ * 
+ * This function retrieves the user session from the event, verifies the session
+ * and user's email, and then fetches the corresponding user from the database
+ * using their email as the username. If any step fails, appropriate HTTP status
+ * codes are set and an error message is returned.
+ * 
+ * @param {H3Event<EventHandlerRequest>} event - The event containing the user's session data.
+ * @returns {Promise<{user_id: number, username: string, profile_image: string | null} | undefined>} 
+ *          The user object if found, otherwise undefined if an error occurs.
+ */
 export const extractUserFromSession = async (event:  H3Event<EventHandlerRequest>) => {
     const session: Session | null = await getServerSession(event);
 

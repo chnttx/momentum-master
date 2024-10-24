@@ -117,6 +117,12 @@ export const insertNewReflection = async ({
     return { reflection, skillUsed, qAndR };
 };
 
+/**
+ * Fetches all reflections for a given user, sorted by date in descending order.
+ * 
+ * @param {number} userId - The ID of the user whose reflections are being fetched.
+ * @returns {Promise<Object[]>} A list of reflection objects containing reflection_id, date, and summary.
+ */
 export const getAllReflectionsByUser = async (userId: number) => {
     const reflections = await prisma.reflection.findMany({
         where: {
@@ -134,28 +140,29 @@ export const getAllReflectionsByUser = async (userId: number) => {
     return reflections;
 };
 
+/**
+ * Fetches a specific reflection by its ID and includes related question responses and skills used.
+ * 
+ * @param {number} reflectionId - The ID of the reflection being fetched.
+ * @returns {Promise<Object | undefined>} The reflection object including questions and skills, or undefined if not found.
+ */
 export const getReflectionById = async (reflectionId: number) => {
     let reflection = await prisma.reflection.findFirst({
         where: {
             reflection_id: reflectionId,
         },
-
         include: {
             question_responses: {
                 include: {
                     question: {
                         select: {
                             description: true,
-
                         },
                     },
-
-
                 },
                 orderBy: {
-                    question_response_id: "asc"
-                }
-
+                    question_response_id: "asc",
+                },
             },
             skills_used: {
                 include: {
@@ -168,7 +175,6 @@ export const getReflectionById = async (reflectionId: number) => {
             },
         },
     });
-
 
     if (reflection !== null) {
         let questionResponses = reflection.question_responses;
@@ -192,6 +198,13 @@ export const getReflectionById = async (reflectionId: number) => {
     }
 };
 
+/**
+ * Generates a summary of a reflection based on a user's chat history using OpenAI's ChatGPT.
+ * 
+ * @param {QuestionAnswersInterface[]} chatHistory - An array of question and answer objects representing the reflection session.
+ * @returns {Promise<string>} A summary generated from the chat history.
+ * @throws {Error} Throws an error if the ChatGPT summary generation fails.
+ */
 export const generateReflectionSummary = async (
     chatHistory: QuestionAnswersInterface[]
 ) => {
@@ -216,9 +229,11 @@ export const generateReflectionSummary = async (
         systemQuery,
         userQuery: chatHistoryString,
     });
+
     if (summary === null) {
         throw new Error("ChatGPT failed to generate summary");
     }
 
     return summary;
 };
+
